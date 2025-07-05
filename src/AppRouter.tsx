@@ -1,4 +1,3 @@
-import Navbar from "@/components/ui/Navbar";
 import MyAppointments from "@/pages/appointments/MyAppointments";
 import RequestAppointment from "@/pages/appointments/RequestAppointment";
 import ClientLogin from "@/pages/auth/ClientLogin";
@@ -14,7 +13,6 @@ import { Navigate, Route, BrowserRouter as Router, Routes } from "react-router-d
 export default function AppRouter() {
     return (
         <Router>
-            <Navbar />
             <Routes>
                 <Route path="/" element={<Navigate to="/auth/client/login" />} />
                 <Route path="/auth/client/login" element={<ClientLogin />} />

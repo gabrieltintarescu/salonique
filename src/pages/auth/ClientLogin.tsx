@@ -1,11 +1,28 @@
+import { LoginForm } from "@/components/auth/login-form";
+import logo from '../../assets/login_banner.webp';
 
 export default function ClientLogin() {
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-pink-100 to-purple-200">
-            <div className="w-full max-w-md p-8 bg-white rounded-xl shadow-lg">
-                <h1 className="text-2xl font-bold mb-6 text-center">Client Login</h1>
-                {/* TODO: Add login form */}
+        <div className="grid min-h-svh lg:grid-cols-2">
+            <div className="flex flex-col gap-4 p-6 md:p-10">
+                <div className="flex justify-center gap-2 md:justify-start">
+                    <a href="#" className="flex items-center gap-2 font-medium">
+                        AAM Lashes.
+                    </a>
+                </div>
+                <div className="flex flex-1 items-center justify-center">
+                    <div className="w-full max-w-xs">
+                        <LoginForm />
+                    </div>
+                </div>
+            </div>
+            <div className="bg-muted relative hidden lg:block">
+                <img
+                    src={(logo)}
+                    alt="Image"
+                    className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+                />
             </div>
         </div>
-    );
+    )
 }
