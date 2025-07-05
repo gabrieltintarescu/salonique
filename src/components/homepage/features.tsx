@@ -7,6 +7,13 @@ import {
   Users,
   Zap,
 } from "lucide-react";
+import card1 from '../../assets/home/card1.svg';
+import card2 from '../../assets/home/card2.svg';
+import card3 from '../../assets/home/card3.svg';
+import card4 from '../../assets/home/card4.svg';
+import card5 from '../../assets/home/card5.svg';
+import card6 from '../../assets/home/card6.svg';
+
 
 const features = [
   {
@@ -14,48 +21,55 @@ const features = [
     title: "Identifică oportunități",
     description:
       "Descoperă rapid intervale libere și optimizează programările pentru a-ți crește eficiența.",
+    image: card1
   },
   {
     icon: BookCheck,
     title: "Gestionează clienții",
     description:
       "Administrează cu ușurință lista de clienți, istoricul programărilor și preferințele acestora.",
+    image: card3
   },
   {
     icon: ChartPie,
     title: "Statistici instant",
     description:
       "Vizualizează rapid statistici despre programări, clienți și activitatea ta pentru decizii mai bune.",
+    image: card2
   },
   {
     icon: Users,
     title: "Comunicare eficientă",
     description:
       "Trimite notificări automate și reamintește clienților de programări direct din platformă.",
+    image: card4
   },
   {
     icon: FolderSync,
     title: "Automatizează procesele",
     description:
       "Redu timpul pierdut cu sarcini repetitive prin automatizarea programărilor și confirmărilor.",
+    image: card5
   },
   {
     icon: Zap,
     title: "Crește-ți afacerea",
     description:
       "Atrage mai mulți clienți și gestionează-ți activitatea eficient cu ajutorul platformei noastre moderne.",
+    image: card6
   },
 ];
 
 const Features = () => {
   return (
     <div
-      id="features"
+      id="avantaje"
       className="max-w-(--breakpoint-xl) mx-auto w-full py-12 xs:py-20 px-6"
     >
       <h2 className="text-3xl xs:text-4xl md:text-5xl md:leading-[3.5rem] font-bold tracking-tight sm:max-w-xl sm:text-center sm:mx-auto">
         Funcționalități inteligente pentru programări eficiente
       </h2>
+      <div className="h-8 xs:h-12" />
       <div className="mt-8 xs:mt-14 w-full mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-12">
         {features.map((feature) => (
           <Card
@@ -72,7 +86,13 @@ const Features = () => {
               </p>
             </CardHeader>
             <CardContent className="mt-auto px-0 pb-0">
-              <div className="bg-muted h-52 ml-6 rounded-tl-xl" />
+              <div className="bg-muted h-52 ml-6 rounded-tl-xl">
+                <img
+                  src={feature.image}
+                  alt=""
+                  className="object-cover rounded-xl"
+                />
+              </div>
             </CardContent>
           </Card>
         ))}

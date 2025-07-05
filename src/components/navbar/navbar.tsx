@@ -1,4 +1,5 @@
-import ThemeToggle from "../homepage/theme-toggle";
+import { AppRoutes } from "@/AppRouter";
+import { Link } from "react-router-dom";
 import { Button } from "../homepage/ui/button";
 import { Logo } from "./logo";
 import { NavMenu } from "./nav-menu";
@@ -14,11 +15,12 @@ export default function Navbar() {
         <NavMenu />
 
         <div className="flex items-center gap-3">
-          <ThemeToggle />
-          <Button variant="outline" className="hidden sm:inline-flex">
-            Sign In
-          </Button>
-          <Button className="hidden xs:inline-flex">Get Started</Button>
+          <Link to={AppRoutes.PROFESSIONAL_LOGIN}>
+            <Button variant="outline" className="hidden sm:inline-flex">
+              Conectează-te ca profesionist
+            </Button>
+          </Link>
+          <Button className="hidden xs:inline-flex">Creează cont</Button>
 
           {/* Mobile Menu */}
           <div className="md:hidden">

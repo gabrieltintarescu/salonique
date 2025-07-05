@@ -4,6 +4,12 @@ import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback } from "@radix-ui/react-avatar";
 import { StarIcon } from "lucide-react";
 import { useEffect, useState } from "react";
+import avatar1 from '../../assets/testimonial/1.webp';
+import avatar2 from '../../assets/testimonial/2.webp';
+import avatar3 from '../../assets/testimonial/3.webp';
+import avatar4 from '../../assets/testimonial/4.webp';
+import avatar5 from '../../assets/testimonial/5.webp';
+import avatar6 from '../../assets/testimonial/6.webp';
 import { type CarouselApi, Carousel, CarouselContent, CarouselItem } from "./ui/carousel";
 
 const testimonials = [
@@ -14,7 +20,7 @@ const testimonials = [
     company: "Beauty Studio",
     testimonial:
       "Platforma ne-a ajutat să gestionăm programările mult mai eficient. Clienții pot rezerva online, iar noi avem totul organizat într-un singur loc!",
-    avatar: "https://randomuser.me/api/portraits/men/1.jpg",
+    avatar: avatar1,
   },
   {
     id: 2,
@@ -23,7 +29,7 @@ const testimonials = [
     company: "DentalCare",
     testimonial:
       "Reamintirile automate și calendarul integrat ne-au redus semnificativ numărul de programări ratate. Recomand cu încredere!",
-    avatar: "https://randomuser.me/api/portraits/women/2.jpg",
+    avatar: avatar2,
   },
   {
     id: 3,
@@ -32,7 +38,7 @@ const testimonials = [
     company: "ConsultingPro",
     testimonial:
       "Interfața este intuitivă și ușor de folosit, atât pentru noi cât și pentru clienți. Programările se fac rapid, fără bătăi de cap.",
-    avatar: "https://randomuser.me/api/portraits/men/3.jpg",
+    avatar: avatar4,
   },
   {
     id: 4,
@@ -41,7 +47,7 @@ const testimonials = [
     company: "Relax Clinic",
     testimonial:
       "Folosim platforma de câteva luni și suntem foarte mulțumiți. Suportul tehnic răspunde prompt la orice întrebare.",
-    avatar: "https://randomuser.me/api/portraits/women/4.jpg",
+    avatar: avatar3,
   },
   {
     id: 5,
@@ -50,7 +56,7 @@ const testimonials = [
     company: "WebWorks",
     testimonial:
       "Integrarea cu site-ul nostru a fost rapidă, iar funcțiile de raportare ne ajută să urmărim evoluția afacerii.",
-    avatar: "https://randomuser.me/api/portraits/men/5.jpg",
+    avatar: avatar5,
   },
   {
     id: 6,
@@ -59,7 +65,7 @@ const testimonials = [
     company: "DataVision",
     testimonial:
       "Platforma oferă rapoarte detaliate și statistici utile. Acum putem lua decizii informate pentru a ne crește afacerea!",
-    avatar: "https://randomuser.me/api/portraits/women/6.jpg",
+    avatar: avatar6,
   },
 ];
 const Testimonial = () => {
@@ -82,12 +88,13 @@ const Testimonial = () => {
 
   return (
     <div
-      id="testimonials"
+      id="recenzii"
       className="w-full max-w-(--breakpoint-xl) mx-auto py-6 xs:py-12 px-6"
     >
       <h2 className="mb-8 xs:mb-14 text-4xl md:text-5xl font-bold text-center tracking-tight">
-        Testimoniale
+        Ce spun clienții noștri
       </h2>
+      <div className="h-8 xs:h-12" />
       <div className="container w-full mx-auto">
         <Carousel setApi={setApi}>
           <CarouselContent>
@@ -123,7 +130,7 @@ const TestimonialCard = ({
     <div className="flex items-center justify-between gap-20">
       <div className="hidden lg:block relative shrink-0 aspect-3/4 max-w-[18rem] w-full bg-muted-foreground/20 rounded-xl">
         <img
-          src="/placeholder.svg"
+          src={testimonial.avatar}
           alt=""
           className="object-cover rounded-xl"
         />

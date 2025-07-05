@@ -5,7 +5,7 @@ export default function NotFound() {
             <h2 className="text-2xl font-semibold mb-2">Pagină inexistentă</h2>
             <p className="mb-6 text-gray-500 dark:text-gray-400">Ne pare rău, pagina pe care o cauți nu există sau a fost mutată.</p>
             <a href="/" className="px-6 py-2 rounded bg-black text-white dark:bg-white dark:text-black font-medium transition hover:bg-gray-800 dark:hover:bg-gray-200">
-                Înapoi la platformă
+                Înapoi acasă
             </a>
         </div>
     );

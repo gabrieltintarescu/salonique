@@ -1,4 +1,7 @@
-import { ArrowUpRight, CirclePlay } from "lucide-react";
+import { AppRoutes } from "@/AppRouter";
+import { ArrowUpRight, User } from "lucide-react";
+import { Link } from "react-router-dom";
+import hero_banner from '../../assets/home/salon.svg';
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 
@@ -17,24 +20,28 @@ const Hero = () => {
             Programează-te rapid și ușor, gestionează-ți clienții și optimizează-ți activitatea cu platforma noastră modernă de management al programărilor. Totul într-un singur loc, accesibil oricând!
           </p>
           <div className="mt-12 flex flex-col sm:flex-row items-center gap-4">
-            <Button
-              size="lg"
-              className="w-full sm:w-auto rounded-full text-base"
-            >
-              Începe acum <ArrowUpRight className="h-5! w-5!" />
-            </Button>
-            <Button
-              variant="outline"
-              size="lg"
-              className="w-full sm:w-auto rounded-full text-base shadow-none hidden"
-            >
-              <CirclePlay className="h-5! w-5!" /> Vezi demo
-            </Button>
+            <Link to={AppRoutes.PROFESSIONAL_LOGIN}>
+              <Button
+                size="lg"
+                className="w-full sm:w-auto rounded-full text-base"
+              >
+                Începe acum <ArrowUpRight className="h-5! w-5!" />
+              </Button>
+            </Link>
+            <Link to={AppRoutes.CLIENT_LOGIN}>
+              <Button
+                variant="outline"
+                size="lg"
+                className="w-full sm:w-auto rounded-full text-base shadow-none"
+              >
+                <User className="h-5! w-5!" /> Conectare clienți
+              </Button>
+            </Link>
           </div>
         </div>
-        <div className="relative lg:max-w-lg xl:max-w-xl w-full bg-accent rounded-xl aspect-square">
+        <div className="relative lg:max-w-lg xl:max-w-xl w-full">
           <img
-            src="/placeholder.svg"
+            src={hero_banner}
             alt=""
             className="object-cover rounded-xl"
           />

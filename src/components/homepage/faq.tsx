@@ -49,7 +49,7 @@ const FAQ = () => {
       <p className="mt-1.5 md:text-center xs:text-lg text-muted-foreground">
         Răspunsuri rapide la cele mai comune întrebări despre platforma de programări.
       </p>
-
+      <div className="h-8 xs:h-12" />
       <div className="min-h-[550px] md:min-h-[320px] xl:min-h-[300px]">
         <Accordion
           type="single"

@@ -7,7 +7,7 @@ import { Separator } from "./ui/separator";
 const plans = [
   {
     name: "Start",
-    price: 19,
+    price: 149,
     description:
       "Ideal pentru profesioniști la început de drum. Gestionează până la 50 de programări pe lună și trimite notificări automate clienților.",
     features: [
@@ -21,7 +21,7 @@ const plans = [
   },
   {
     name: "Avansat",
-    price: 29,
+    price: 299,
     isRecommended: true,
     description:
       "Pentru afaceri în creștere. Include programări nelimitate, SMS reminders și rapoarte detaliate.",
@@ -37,7 +37,7 @@ const plans = [
   },
   {
     name: "Premium",
-    price: 49,
+    price: 499,
     description:
       "Soluție completă pentru echipe mari sau saloane cu mai multe locații. Include funcții avansate de management și integrare cu website-ul.",
     features: [
@@ -53,7 +53,7 @@ const plans = [
 
 const Pricing = () => {
   return (
-    <div id="pricing" className="max-w-(--breakpoint-lg) mx-auto py-12 xs:py-20 px-6">
+    <div id="preturi" className="max-w-(--breakpoint-lg) mx-auto py-12 xs:py-20 px-6">
       <h1 className="text-4xl xs:text-5xl font-bold text-center tracking-tight">
         Pachete și prețuri
       </h1>
@@ -75,7 +75,7 @@ const Pricing = () => {
               </Badge>
             )}
             <h3 className="text-lg font-medium">{plan.name}</h3>
-            <p className="mt-2 text-4xl font-bold">${plan.price}</p>
+            <p className="mt-2 text-4xl font-bold">{plan.price} lei</p>
             <p className="mt-4 font-medium text-muted-foreground">
               {plan.description}
             </p>
