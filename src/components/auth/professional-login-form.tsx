@@ -56,35 +56,39 @@ export function ProfessionalLoginForm({
     await new Promise(resolve => setTimeout(resolve, 2000))
     setLoading(false)
     if (error) {
-      alert(error.message);
-      toast("Oops!", {
-        description: error.message,
-        action: {
-          label: "Ok",
-          onClick: () => console.log("Ok"),
-        },
-      })
+      handleSupabaseError(error);
     } else {
-      // Optionally redirect or reload
-      window.location.reload()
+      // Get redirect URL from query params or use default
+      const redirectUrl = searchParams.get('redirectUrl') || AppRoutes.PROFESSIONAL_DASHBOARD
+      navigate(redirectUrl)
     }
   }
 
   // Google login
   const handleGoogleLogin = async () => {
     setLoading(true)
-    const { error } = await supabase.auth.signInWithOAuth({ provider: 'google' })
+
+    // Store redirect URL in sessionStorage for after Google auth
+    const redirectUrl = searchParams.get('redirectUrl');
+    if (redirectUrl) {
+      sessionStorage.setItem('postAuthRedirect', redirectUrl);
+    }
+
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}${AppRoutes.GOOGLE_ACCOUNT_SETUP}`,
+        queryParams: {
+          prompt: 'select_account'
+        }
+      }
+    })
+
     setLoading(false)
     if (error) {
-      toast("Oops!", {
-        description: error.message,
-        action: {
-          label: "Ok",
-          onClick: () => console.log("Ok"),
-        },
-      })
+      handleSupabaseError(error);
     }
-    // On success, Supabase will redirect
+    // On success, Supabase will redirect to the specified URL
   }
 
   return (

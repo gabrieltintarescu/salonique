@@ -19,7 +19,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { supabase } from '@/lib/supabase';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import { motion } from "framer-motion";
-import { Calendar, CalendarX, Clock, LockKeyhole, Menu, Trash2, User } from 'lucide-react';
+import { Calendar, CalendarX, Clock, Home, LockKeyhole, Mail, Menu, Phone, Trash2, User } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
@@ -41,8 +41,16 @@ interface Appointment {
     };
 }
 
+interface ClientInfo {
+    id: string;
+    name: string;
+    email: string;
+    phone?: string;
+}
+
 export default function MyAppointments() {
     const [appointments, setAppointments] = useState<Appointment[]>([]);
+    const [clientInfo, setClientInfo] = useState<ClientInfo | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -71,7 +79,7 @@ export default function MyAppointments() {
                 // Get client record
                 const { data: clientData, error: clientError } = await supabase
                     .from('clients')
-                    .select('id')
+                    .select('id, name, email, phone')
                     .eq('user_id', session.user.id)
                     .single();
 
@@ -80,6 +88,9 @@ export default function MyAppointments() {
                     handleLogout();
                     return;
                 }
+
+                // Store client info in state
+                setClientInfo(clientData);
 
                 // Fetch appointments with professional details
                 const { data, error: appointmentsError } = await supabase
@@ -255,25 +266,25 @@ export default function MyAppointments() {
     const AppointmentsNavigation = () => (
         <>
             {/* Desktop Navigation */}
-            <div className="hidden md:block bg-white/80 backdrop-blur-sm border-b border-gray-100 sticky top-0 z-40">
+            <div className="hidden md:block bg-background/80 backdrop-blur-sm border-b border-accent sticky top-0 z-40">
                 <div className="max-w-4xl mx-auto px-6 py-4">
                     <nav className="flex items-center justify-between">
                         {/* Left: Logo/Title */}
-                        <h2 className="text-lg font-semibold text-gray-900">Salonique</h2>
+                        <h2 className="text-lg font-semibold text-foreground">Salonique</h2>
                         {/* Right: Links */}
                         <div className="flex items-center space-x-6">
                             <Button
                                 variant={'ghost'}
-                                onClick={() => setIsMenuOpen(false)}
-                                className="flex items-center space-x-2 text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors cursor-pointer hidden"
+                                onClick={() => navigate(AppRoutes.ROOT)}
+                                className="flex items-center space-x-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
                             >
-                                <User className="w-4 h-4" />
-                                <span>Profilul meu</span>
+                                <Home className="w-4 h-4" />
+                                <span>Acasă</span>
                             </Button>
                             <Button
                                 onClick={handleLogout}
                                 variant={'ghost'}
-                                className="flex items-center space-x-2 text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors cursor-pointer"
+                                className="flex items-center space-x-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
                             >
                                 <LockKeyhole className="w-4 h-4" />
                                 <span>Deconectează-te</span>
@@ -284,10 +295,10 @@ export default function MyAppointments() {
             </div>
 
             {/* Mobile Navigation */}
-            <div className="md:hidden bg-white border-b border-gray-100 sticky top-0 z-40">
+            <div className="md:hidden bg-background border-b border-accent sticky top-0 z-40">
                 <div className="px-4 py-3">
                     <div className="flex items-center justify-between">
-                        <h2 className="text-lg font-semibold text-gray-900">Salonique</h2>
+                        <h2 className="text-lg font-semibold text-foreground">Salonique</h2>
                         <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
                             <VisuallyHidden>
                                 <SheetTitle>Menu navigare</SheetTitle>
@@ -297,25 +308,121 @@ export default function MyAppointments() {
                                     <Menu className="w-5 h-5" />
                                 </Button>
                             </SheetTrigger>
-                            <SheetContent side="right" className="w-80">
-                                <div className="py-6">
-                                    <nav className="space-y-4">
+                            <SheetContent side="right" className="w-80 p-0 bg-background">
+                                <div className="flex flex-col h-full">
+                                    {/* Header with user info */}
+                                    <div className="bg-background border-b border-accent px-6 py-6">
+                                        <div className="flex items-center space-x-4">
+                                            <Avatar className="w-12 h-12 ring-2 ring-accent">
+                                                <AvatarImage src="" alt={clientInfo?.name || "User"} />
+                                                <AvatarFallback className="bg-muted text-muted-foreground text-sm font-semibold">
+                                                    {clientInfo?.name?.charAt(0)?.toUpperCase() || <User className="w-5 h-5" />}
+                                                </AvatarFallback>
+                                            </Avatar>
+                                            <div className="flex-1 min-w-0">
+                                                <h3 className="text-base font-semibold text-foreground truncate">
+                                                    {clientInfo?.name || 'Utilizator'}
+                                                </h3>
+                                                <p className="text-muted-foreground text-sm truncate">
+                                                    {clientInfo?.email || 'Email nespecificat'}
+                                                </p>
+                                                {clientInfo?.phone && (
+                                                    <p className="text-muted-foreground text-xs truncate mt-0.5">
+                                                        {clientInfo.phone}
+                                                    </p>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Navigation Menu */}
+                                    <div className="flex-1 px-6 py-6">
+                                        <nav className="space-y-1">
+                                            {/* Home */}
+                                            <Button
+                                                variant="ghost"
+                                                onClick={() => {
+                                                    navigate(AppRoutes.ROOT);
+                                                    setIsMenuOpen(false);
+                                                }}
+                                                className="w-full justify-start h-10 px-3 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent transition-all duration-200"
+                                            >
+                                                <Home className="w-4 h-4 mr-3" />
+                                                <span>Pagina principală</span>
+                                            </Button>
+
+                                            {/* My Appointments (current page) */}
+                                            <Button
+                                                variant="ghost"
+                                                className="w-full justify-start h-10 px-3 text-sm font-medium bg-accent text-foreground"
+                                                disabled
+                                            >
+                                                <Calendar className="w-4 h-4 mr-3" />
+                                                <span>Programările mele</span>
+                                            </Button>
+                                        </nav>
+
+                                        {/* Quick Stats */}
+                                        <div className="mt-8 pt-6 border-t border-accent">
+                                            <h4 className="text-sm font-semibold text-foreground mb-4">Statistici rapide</h4>
+                                            <div className="space-y-3">
+                                                <div className="flex items-center justify-between">
+                                                    <div className="flex items-center space-x-2 text-sm text-muted-foreground">
+                                                        <Calendar className="w-4 h-4" />
+                                                        <span>Programări viitoare</span>
+                                                    </div>
+                                                    <span className="text-sm font-medium text-foreground">
+                                                        {appointments.filter(apt => !isPastAppointment(apt.start_time)).length}
+                                                    </span>
+                                                </div>
+                                                <div className="flex items-center justify-between">
+                                                    <div className="flex items-center space-x-2 text-sm text-muted-foreground">
+                                                        <Clock className="w-4 h-4" />
+                                                        <span>Programări finalizate</span>
+                                                    </div>
+                                                    <span className="text-sm font-medium text-foreground">
+                                                        {appointments.filter(apt => isPastAppointment(apt.start_time)).length}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Contact Info */}
+                                        {(clientInfo?.email || clientInfo?.phone) && (
+                                            <div className="mt-8 pt-6 border-t border-accent">
+                                                <h4 className="text-sm font-semibold text-foreground mb-4">Informații contact</h4>
+                                                <div className="space-y-3">
+                                                    {clientInfo?.email && (
+                                                        <div className="flex items-center space-x-2 text-sm text-muted-foreground">
+                                                            <Mail className="w-4 h-4" />
+                                                            <span className="truncate">{clientInfo.email}</span>
+                                                        </div>
+                                                    )}
+                                                    {clientInfo?.phone && (
+                                                        <div className="flex items-center space-x-2 text-sm text-muted-foreground">
+                                                            <Phone className="w-4 h-4" />
+                                                            <span>{clientInfo.phone}</span>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    {/* Footer */}
+                                    <div className="px-6 py-4 border-t border-accent bg-muted/30">
                                         <Button
+                                            onClick={() => {
+                                                handleLogout();
+                                                setIsMenuOpen(false);
+                                            }}
                                             variant="ghost"
-                                            onClick={() => handleLogout()}
-                                            className="flex items-center space-x-3 p-3 rounded-lg over:bg-gray-50 text-gray-700 font-medium cursor-pointer hidden" >
-                                            <User className="w-5 h-5" />
-                                            <span>Profilul meu</span>
-                                        </Button>
-                                        <Button
-                                            variant="ghost"
-                                            onClick={() => handleLogout()}
-                                            className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 text-gray-700 font-medium transition-colors cursor-pointer"
+                                            className="w-full justify-start h-10 px-3 text-sm font-medium text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-all duration-200"
                                         >
-                                            <LockKeyhole className="w-5 h-5" />
+                                            <LockKeyhole className="w-4 h-4 mr-3" />
                                             <span>Deconectează-te</span>
                                         </Button>
-                                    </nav>
+                                    </div>
                                 </div>
                             </SheetContent>
                         </Sheet>
