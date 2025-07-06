@@ -46,6 +46,7 @@ interface ClientInfo {
     name: string;
     email: string;
     phone?: string;
+    profilePicture?: string;
 }
 
 export default function MyAppointments() {
@@ -89,8 +90,14 @@ export default function MyAppointments() {
                     return;
                 }
 
-                // Store client info in state
-                setClientInfo(clientData);
+                // Get Google profile picture from user metadata if available
+                const googleProfilePicture = session.user.user_metadata?.picture;
+
+                // Store client info in state with profile picture
+                setClientInfo({
+                    ...clientData,
+                    profilePicture: googleProfilePicture
+                });
 
                 // Fetch appointments with professional details
                 const { data, error: appointmentsError } = await supabase
@@ -314,7 +321,10 @@ export default function MyAppointments() {
                                     <div className="bg-background border-b border-accent px-6 py-6">
                                         <div className="flex items-center space-x-4">
                                             <Avatar className="w-12 h-12 ring-2 ring-accent">
-                                                <AvatarImage src="" alt={clientInfo?.name || "User"} />
+                                                <AvatarImage
+                                                    src={clientInfo?.profilePicture || ""}
+                                                    alt={clientInfo?.name || "User"}
+                                                />
                                                 <AvatarFallback className="bg-muted text-muted-foreground text-sm font-semibold">
                                                     {clientInfo?.name?.charAt(0)?.toUpperCase() || <User className="w-5 h-5" />}
                                                 </AvatarFallback>
