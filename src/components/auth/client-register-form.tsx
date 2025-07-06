@@ -108,8 +108,11 @@ export function ClientRegisterForm({
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${window.location.origin}${AppRoutes.GOOGLE_ACCOUNT_SETUP}`
-      }
+        redirectTo: `${window.location.origin}${AppRoutes.GOOGLE_ACCOUNT_SETUP}`,
+        queryParams: {
+          prompt: 'select_account'
+        }
+      },
     })
     setLoading(false)
     if (error) {
