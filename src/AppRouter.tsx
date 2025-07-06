@@ -5,7 +5,6 @@ import ClientRegister from "@/pages/auth/ClientRegister";
 import EmailConfirmation from "@/pages/auth/EmailConfirmation";
 import GoogleAccountSetup from "@/pages/auth/GoogleAccountSetup";
 import ProfessionalLogin from "@/pages/auth/ProfessionalLogin";
-import ProfessionalDashboard from "@/pages/dashboard/ProfessionalDashboard";
 import NotFound from "@/pages/NotFound";
 import ClientProfile from "@/pages/profile/ClientProfile";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
@@ -96,7 +95,7 @@ export default function AppRouter() {
 
                     }
                 />
-                <Route
+                {/* <Route
                     path={AppRoutes.PROFESSIONAL_DASHBOARD}
                     element={
                         <ProtectedRoute userType="professional">
@@ -106,7 +105,7 @@ export default function AppRouter() {
                         </ProtectedRoute>
 
                     }
-                />
+                /> */}
                 <Route
                     path={AppRoutes.CLIENT_PROFILE}
                     element={
