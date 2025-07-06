@@ -7,12 +7,14 @@ interface ProtectedRouteProps {
   children: React.ReactNode;
   requireAuth?: boolean;
   userType?: 'client' | 'professional';
+  delay?: number; // Delay in milliseconds before checking auth
 }
 
 export function ProtectedRoute({
   children,
   requireAuth = true,
   userType,
+  delay = 0,
 }: ProtectedRouteProps) {
   const [loading, setLoading] = useState(true);
   const [session, setSession] = useState<import('@supabase/supabase-js').Session | null>(null);
@@ -25,7 +27,15 @@ export function ProtectedRoute({
       setLoading(false);
     };
 
-    checkAuth();
+    if (delay > 0) {
+      const timer = setTimeout(() => {
+        checkAuth();
+      }, delay);
+      return () => clearTimeout(timer);
+    } else {
+      checkAuth();
+    }
+
 
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
