@@ -260,7 +260,7 @@ export default function MyAppointments() {
                                 <span>Profilul meu</span>
                             </Button>
                             <Button
-                                onClick={() => setIsMenuOpen(false)}
+                                onClick={handleLogout}
                                 variant={'ghost'}
                                 className="flex items-center space-x-2 text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors cursor-pointer"
                             >

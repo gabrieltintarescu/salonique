@@ -38,7 +38,30 @@ export default function RequestAppointment() {
     const [availableTimeslots, setAvailableTimeslots] = useState<any[]>([]);
     const [showConfirmDialog, setShowConfirmDialog] = useState(false);
     const [selectedTimeSlot, setSelectedTimeSlot] = useState<Date | null>(null);
+    const [professionalExists, setProfessionalExists] = useState<boolean | null>(null);
     const professionalId = searchParams.get('professionalId');
+    const [professionalName, setProfessionalName] = useState<string | null>(null);
+
+    // Validate if professional exists
+    const validateProfessional = async (profId: string) => {
+        try {
+            const { data, error } = await supabase
+                .from('professionals')
+                .select('id, name')
+                .eq('id', profId)
+                .single();
+
+            if (error || !data) {
+                return false;
+            }
+
+            setProfessionalName(data.name);
+            return true;
+        } catch (error) {
+            console.error('Error validating professional:', error);
+            return false;
+        }
+    };
 
     // Fetch appointments for the professional
     const fetchAppointments = async (profId: string) => {
@@ -144,6 +167,15 @@ export default function RequestAppointment() {
 
             setLoading(true);
 
+            // Validate professional existence
+            const isProfessionalValid = await validateProfessional(professionalId);
+            setProfessionalExists(isProfessionalValid);
+
+            if (!isProfessionalValid) {
+                setLoading(false);
+                return;
+            }
+
             const appointments = await fetchAppointments(professionalId);
             console.log('Fetched appointments:', appointments);
 
@@ -229,13 +261,103 @@ export default function RequestAppointment() {
     };
 
     if (!professionalId) {
-        navigate(AppRoutes.MY_APPOINTMENTS);
+        // Show invalid professional ID state
+        return (
+            <div className="flex flex-col items-center justify-center min-h-[500px] px-4 text-center">
+                <div className="max-w-md mx-auto">
+                    <div className="mb-6">
+                        <div className="mx-auto w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mb-4">
+                            <svg
+                                className="w-10 h-10 text-red-400"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"
+                                />
+                            </svg>
+                        </div>
+                        <h2 className="text-2xl font-semibold text-gray-900 mb-2">
+                            Link invalid
+                        </h2>
+                        <p className="text-gray-600 mb-6">
+                            Linkul pe care l-ați accesat nu este valid sau este incomplet. Vă rugăm să verificați linkul sau să alegeți un specialist din lista noastră.
+                        </p>
+                    </div>
+                    <div className="space-y-3">
+                        <button
+                            onClick={() => navigate(AppRoutes.MY_APPOINTMENTS)}
+                            className="w-full bg-gray-900 text-white px-6 py-3 rounded-lg hover:bg-gray-800 transition-colors font-medium cursor-pointer"
+                        >
+                            Înapoi la programările mele
+                        </button>
+                        <button
+                            onClick={() => navigate(-1)}
+                            className="w-full bg-gray-100 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-200 transition-colors font-medium cursor-pointer"
+                        >
+                            Înapoi la pagina anterioară
+                        </button>
+                    </div>
+                </div>
+            </div>
+        );
     }
 
     if (loading) {
         return (
             <div className="flex items-center justify-center min-h-[400px]">
                 <p className="text-lg text-gray-600">Se încarcă intervalele de timp disponibile...</p>
+            </div>
+        );
+    }
+
+    // Show professional not found state
+    if (professionalExists === false) {
+        return (
+            <div className="flex flex-col items-center justify-center min-h-[500px] px-4 text-center">
+                <div className="max-w-md mx-auto">
+                    <div className="mb-6">
+                        <div className="mx-auto w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+                            <svg
+                                className="w-10 h-10 text-gray-400"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                                />
+                            </svg>
+                        </div>
+                        <h2 className="text-2xl font-semibold text-gray-900 mb-2">
+                            Specialist negăsit
+                        </h2>
+                        <p className="text-gray-600 mb-6">
+                            Ne pare rău, dar specialistul pe care îl căutați nu a fost găsit sau nu mai este disponibil.
+                        </p>
+                    </div>
+                    <div className="space-y-3">
+                        <button
+                            onClick={() => navigate(AppRoutes.MY_APPOINTMENTS)}
+                            className="w-full bg-gray-900 text-white px-6 py-3 rounded-lg hover:bg-gray-800 transition-colors font-medium cursor-pointer"
+                        >
+                            Înapoi la programările mele
+                        </button>
+                        <button
+                            onClick={() => navigate(-1)}
+                            className="w-full bg-gray-100 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-200 transition-colors font-medium cursor-pointer"
+                        >
+                            Înapoi la pagina anterioară
+                        </button>
+                    </div>
+                </div>
             </div>
         );
     }
@@ -281,6 +403,11 @@ export default function RequestAppointment() {
                                         Sunteți sigur că doriți să rezervați o programare pentru:
                                     </p>
                                     <div className="bg-gray-50 p-3 rounded-md">
+                                        {professionalName &&
+                                            <p className="font-semibold">
+                                                👩🏻‍⚕️ Nume: {professionalName}
+                                            </p>
+                                        }
                                         <p className="font-semibold">
                                             📅 {selectedTimeSlot?.toLocaleDateString('ro-RO', {
                                                 timeZone: 'Europe/Bucharest',
@@ -302,10 +429,10 @@ export default function RequestAppointment() {
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                        <AlertDialogCancel onClick={handleCancelBooking}>
+                        <AlertDialogCancel onClick={handleCancelBooking} className='cursor-pointer'>
                             Anulează
                         </AlertDialogCancel>
-                        <AlertDialogAction onClick={handleConfirmBooking}>
+                        <AlertDialogAction onClick={handleConfirmBooking} className='cursor-pointer'>
                             Confirmă rezervarea
                         </AlertDialogAction>
                     </AlertDialogFooter>

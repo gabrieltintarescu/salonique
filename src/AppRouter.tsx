@@ -31,7 +31,6 @@ export default function AppRouter() {
         <Router>
             <Routes>
                 <Route path={AppRoutes.ROOT} element={<Home />} />
-
                 {/* Public routes that redirect if logged in */}
                 <Route
                     path={AppRoutes.CLIENT_LOGIN}
