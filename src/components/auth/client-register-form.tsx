@@ -65,6 +65,7 @@ export function ClientRegisterForm({
       email,
       password,
       options: {
+        emailRedirectTo: `${window.location.origin}${AppRoutes.EMAIL_CONFIRMATION}?email=${encodeURIComponent(email)}`,
         data: {
           name,
           phone,

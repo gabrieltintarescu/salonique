@@ -121,7 +121,7 @@ export default function GoogleAccountSetup() {
                             </svg>
                         </div>
                         <h2 className="text-xl font-semibold text-gray-900 mb-2">
-                            Configurează contul tău
+                            Configurăm contul tău
                         </h2>
                         <p className="text-gray-600">
                             Verificăm și configurăm contul tău Google...

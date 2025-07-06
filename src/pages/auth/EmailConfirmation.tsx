@@ -17,7 +17,7 @@ export default function EmailConfirmation() {
             const { data: { session } } = await supabase.auth.getSession()
             if (session?.user) {
                 // User is already logged in, redirect to appointments page
-                navigate(AppRoutes.ROOT)
+                navigate(AppRoutes.MY_APPOINTMENTS)
             }
         }
 
