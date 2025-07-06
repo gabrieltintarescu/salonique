@@ -200,7 +200,9 @@ export default function RequestAppointment() {
             // Get current user session
             const { data: { session } } = await supabase.auth.getSession();
             if (!session?.user) {
-                navigate(AppRoutes.CLIENT_LOGIN)
+                // Store the current URL with query params for redirect after login
+                const currentUrl = `${window.location.pathname}${window.location.search}`;
+                navigate(`${AppRoutes.CLIENT_LOGIN}?redirectUrl=${encodeURIComponent(currentUrl)}`);
                 return;
             }
 

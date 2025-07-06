@@ -40,12 +40,20 @@ export default function GoogleAccountSetup() {
                     return
                 }
 
-                // If client already exists, redirect to appointments
+                // If client already exists, redirect to appropriate page
                 if (existingClient) {
                     toast("Bine ai revenit!", {
                         description: "Contul tău este deja configurat."
                     })
-                    navigate(AppRoutes.MY_APPOINTMENTS)
+
+                    // Check for stored redirect URL
+                    const storedRedirect = sessionStorage.getItem('postAuthRedirect');
+                    if (storedRedirect) {
+                        sessionStorage.removeItem('postAuthRedirect');
+                        navigate(storedRedirect);
+                    } else {
+                        navigate(AppRoutes.MY_APPOINTMENTS);
+                    }
                     return
                 }
 
@@ -78,11 +86,19 @@ export default function GoogleAccountSetup() {
                     return
                 }
 
-                // Success - redirect to appointments
+                // Success - redirect to appropriate page
                 toast("Succes", {
                     description: "Contul a fost configurat cu succes! Bine ai venit!"
                 })
-                navigate(AppRoutes.MY_APPOINTMENTS)
+
+                // Check for stored redirect URL
+                const storedRedirect = sessionStorage.getItem('postAuthRedirect');
+                if (storedRedirect) {
+                    sessionStorage.removeItem('postAuthRedirect');
+                    navigate(storedRedirect);
+                } else {
+                    navigate(AppRoutes.MY_APPOINTMENTS);
+                }
 
             } catch (error) {
                 console.error('Unexpected error:', error)

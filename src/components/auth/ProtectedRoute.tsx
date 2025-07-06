@@ -38,7 +38,7 @@ export function ProtectedRoute({
 
 
     // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
       setLoading(false);
     });
@@ -56,8 +56,11 @@ export function ProtectedRoute({
       ? AppRoutes.PROFESSIONAL_LOGIN
       : AppRoutes.CLIENT_LOGIN;
 
+    // Include current location as redirect parameter
+    const currentUrl = `${location.pathname}${location.search}`;
+
     return <Navigate
-      to={`${redirectUrl}`}
+      to={`${redirectUrl}?redirectUrl=${encodeURIComponent(currentUrl)}`}
       replace
     />;
   }

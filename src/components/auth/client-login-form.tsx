@@ -66,6 +66,13 @@ export function ClientLoginForm({
   // Google login
   const handleGoogleLogin = async () => {
     setLoading(true)
+
+    // Store redirect URL in sessionStorage for after Google auth
+    const redirectUrl = searchParams.get('redirectUrl');
+    if (redirectUrl) {
+      sessionStorage.setItem('postAuthRedirect', redirectUrl);
+    }
+
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
