@@ -3,6 +3,7 @@ import RequestAppointment from "@/pages/appointments/RequestAppointment";
 import ClientLogin from "@/pages/auth/ClientLogin";
 import ClientRegister from "@/pages/auth/ClientRegister";
 import EmailConfirmation from "@/pages/auth/EmailConfirmation";
+import GoogleAccountSetup from "@/pages/auth/GoogleAccountSetup";
 import ProfessionalLogin from "@/pages/auth/ProfessionalLogin";
 import ProfessionalDashboard from "@/pages/dashboard/ProfessionalDashboard";
 import NotFound from "@/pages/NotFound";
@@ -16,6 +17,7 @@ export const AppRoutes = {
     CLIENT_LOGIN: "/auth/client/login",
     EMAIL_CONFIRMATION: "/auth/confirm-email",
     CLIENT_REGISTER: "/auth/client/register",
+    GOOGLE_ACCOUNT_SETUP: "/auth/google-setup",
     PROFESSIONAL_LOGIN: "/auth/professional/login",
     PROFESSIONAL_REGISTER: "/auth/professional/register",
     PROFESSIONAL_PROFILE: "/profile/professional",
@@ -93,6 +95,7 @@ export default function AppRouter() {
 
                 <Route path="*" element={<NotFound />} />
                 <Route path={AppRoutes.EMAIL_CONFIRMATION} element={<EmailConfirmation />} />
+                <Route path={AppRoutes.GOOGLE_ACCOUNT_SETUP} element={<GoogleAccountSetup />} />
             </Routes>
         </Router>
     );

@@ -103,17 +103,20 @@ export function ClientRegisterForm({
   // Google login
   const handleGoogleLogin = async () => {
     setLoading(true)
-    // Google OAuth
-    const { error } = await supabase.auth.signInWithOAuth({ provider: 'google' })
-    // Notă: Pentru OAuth, utilizatorul va fi redirecționat, deci nu putem insera direct aici.
-    // Soluție: Poți salva datele suplimentare după redirect, într-o pagină de onboarding, sau folosește un hook la autentificare.
+    // Google OAuth with redirect to our setup page
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}${AppRoutes.GOOGLE_ACCOUNT_SETUP}`
+      }
+    })
     setLoading(false)
     if (error) {
       toast("Oops", {
         description: error.message || "A apărut o eroare. Încearcă din nou.",
       })
     }
-    // Pentru Google, datele suplimentare trebuie salvate după redirect, când user-ul este logat.
+    // The user will be redirected to Google and then back to our GoogleAccountSetup page
   }
 
   return (

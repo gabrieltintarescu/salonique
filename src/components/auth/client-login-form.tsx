@@ -44,13 +44,10 @@ export function ClientLoginForm({
   const handleGoogleLogin = async () => {
     setLoading(true)
 
-    // Get redirect URL from query params or use default
-    const redirectUrl = searchParams.get('redirectUrl') || AppRoutes.MY_APPOINTMENTS
-
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: redirectUrl
+        redirectTo: `${window.location.origin}${AppRoutes.GOOGLE_ACCOUNT_SETUP}`
       }
     })
 
