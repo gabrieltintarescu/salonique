@@ -372,25 +372,53 @@ export default function RequestAppointment() {
                     <p className="mt-2">Vă rugăm să încercați din nou mai târziu sau să contactați specialistul direct.</p>
                 </div>
             ) : (
-                <div style={{ textTransform: 'capitalize' }}>
-                    <ScheduleMeeting
-                        borderRadius={8}
-                        primaryColor="#4a5568"
-                        startTimeListStyle="scroll-list"
-                        eventDurationInMinutes={90}
-                        availableTimeslots={availableTimeslots}
-                        onStartTimeSelect={handleTimeSelect}
-                        locale={ro}
-                        format_selectedDateDayTitleFormatString="cccc, d MMMM yyyy"
-                        format_selectedDateMonthTitleFormatString="MMMM yyyy"
-                        format_startTimeFormatString="HH:mm"
-                        lang_cancelButtonText="Anulează"
-                        lang_confirmButtonText="Confirmă"
-                        lang_emptyListText="Nu sunt ore disponibile"
-                        lang_goToNextAvailableDayText="Următoarele disponibile"
-                        lang_noFutureTimesText="Nu sunt ore disponibile în viitor"
-                        lang_selectedButtonText="Selectat:"
-                    />
+                <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+                    {/* Calendar topbar */}
+                    <div className="flex items-center justify-between px-4 py-3 bg-gray-50 border-b border-gray-200">
+                        <h3 className="text-lg font-medium text-gray-900">
+                            Selectează o programare
+                        </h3>
+                        <button
+                            onClick={() => navigate(AppRoutes.MY_APPOINTMENTS)}
+                            className="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-gray-700 hover:bg-gray-200 rounded-full transition-colors cursor-pointer"
+                        >
+                            <svg
+                                className="w-5 h-5"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M6 18L18 6M6 6l12 12"
+                                />
+                            </svg>
+                        </button>
+                    </div>
+
+                    {/* Calendar content */}
+                    <div className="p-4" style={{ textTransform: 'capitalize' }}>
+                        <ScheduleMeeting
+                            borderRadius={8}
+                            primaryColor="#4a5568"
+                            startTimeListStyle="scroll-list"
+                            eventDurationInMinutes={90}
+                            availableTimeslots={availableTimeslots}
+                            onStartTimeSelect={handleTimeSelect}
+                            locale={ro}
+                            format_selectedDateDayTitleFormatString="cccc, d MMMM yyyy"
+                            format_selectedDateMonthTitleFormatString="MMMM yyyy"
+                            format_startTimeFormatString="HH:mm"
+                            lang_cancelButtonText="Anulează"
+                            lang_confirmButtonText="Confirmă"
+                            lang_emptyListText="Nu sunt ore disponibile"
+                            lang_goToNextAvailableDayText="Următoarele disponibile"
+                            lang_noFutureTimesText="Nu sunt ore disponibile în viitor"
+                            lang_selectedButtonText="Selectat:"
+                        />
+                    </div>
                 </div>
             )}
 
