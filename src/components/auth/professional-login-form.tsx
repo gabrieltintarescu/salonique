@@ -1,11 +1,13 @@
+import { AppRoutes } from "@/AppRouter"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { useErrorHandler } from "@/hooks/useErrorHandler"
 import { supabase } from "@/lib/supabase"
 import { cn } from "@/lib/utils"
 import HCaptcha from '@hcaptcha/react-hcaptcha'
 import { useRef, useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate, useSearchParams } from "react-router-dom"
 import { toast, Toaster } from "sonner"
 import login_banner from '../../assets/login_banner.webp'
 import { Button } from "../ui/Button"
@@ -19,6 +21,9 @@ export function ProfessionalLoginForm({
   const [loading, setLoading] = useState(false)
   const [captchaToken, setCaptchaToken] = useState<string | null>(null)
   const captchaRef = useRef<HCaptcha>(null)
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const { handleSupabaseError } = useErrorHandler();
 
 
   // Email/password login

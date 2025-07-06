@@ -45,7 +45,7 @@ export function ProtectedRoute({
     });
 
     return () => subscription.unsubscribe();
-  }, []);
+  }, [delay]);
 
   if (loading) {
     return <PageLoader message="Verificăm autentificarea..." />;
@@ -57,8 +57,18 @@ export function ProtectedRoute({
       ? AppRoutes.PROFESSIONAL_LOGIN
       : AppRoutes.CLIENT_LOGIN;
 
-    // Include current location as redirect parameter
-    const currentUrl = `${location.pathname}${location.search}`;
+    // Only include redirect parameter if we're not already on a login page
+    // and if the current path is not already a login path to prevent infinite redirects
+    const currentPath = location.pathname;
+    const isLoginPage = currentPath === AppRoutes.CLIENT_LOGIN || currentPath === AppRoutes.PROFESSIONAL_LOGIN;
+
+    if (isLoginPage) {
+      // If we're already on a login page, just go to it without redirect params
+      return <Navigate to={redirectUrl} replace />;
+    }
+
+    // Include current location as redirect parameter, but only the pathname to avoid growing URLs
+    const currentUrl = location.pathname;
 
     return <Navigate
       to={`${redirectUrl}?redirectUrl=${encodeURIComponent(currentUrl)}`}
