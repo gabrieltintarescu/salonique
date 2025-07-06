@@ -71,7 +71,7 @@ export default function AppRouter() {
                 <Route
                     path={AppRoutes.REQUEST_APPOINTMENT}
                     element={
-                        <ProtectedRoute userType="client" delay={1500} >
+                        <ProtectedRoute userType="client" delay={1000} >
                             <RequestAppointment />
                         </ProtectedRoute>
                     }
