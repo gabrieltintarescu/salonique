@@ -439,7 +439,7 @@ export default function RequestAppointment() {
                         animate="visible"
                     >
                         <motion.button
-                            onClick={() => navigate(-1)}
+                            onClick={navigateToMyAppointments}
                             className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
                             variants={staggerItem}
                             whileHover={{ scale: 1.02 }}
