@@ -3,7 +3,6 @@ import { ro } from 'date-fns/locale';
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ScheduleMeeting, type StartTimeEventEmit } from 'react-schedule-meeting';
-import { toast } from 'sonner';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -14,6 +13,7 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
 } from '../../components/ui/alert-dialog';
+import { useErrorHandler } from '../../hooks/useErrorHandler';
 import { supabase } from '../../lib/supabase';
 import {
     addMinutes,
@@ -41,6 +41,7 @@ export default function RequestAppointment() {
     const [professionalExists, setProfessionalExists] = useState<boolean | null>(null);
     const professionalId = searchParams.get('professionalId');
     const [professionalName, setProfessionalName] = useState<string | null>(null);
+    const { handleSupabaseError, handleSuccess } = useErrorHandler();
 
     // Validate if professional exists
     const validateProfessional = async (profId: string) => {
@@ -214,9 +215,7 @@ export default function RequestAppointment() {
                 .single();
 
             if (clientError || !clientData) {
-                toast("Eroare", {
-                    description: 'Nu vă putem găsi profilul de client. Vă rugăm să contactați suportul.',
-                })
+                handleSupabaseError(clientError, 'Nu vă putem găsi profilul de client. Vă rugăm să contactați suportul.');
                 return;
             }
 
@@ -239,18 +238,15 @@ export default function RequestAppointment() {
                 .select();
 
             if (error) {
-                toast("Eroare", {
-                    description: 'Rezervarea nu a putut fi efectuată. Vă rugăm să încercați din nou.',
-                })
+                handleSupabaseError(error, 'Rezervarea nu a putut fi efectuată. Vă rugăm să încercați din nou.');
                 return;
             }
 
+            handleSuccess('Rezervarea a fost trimisă cu succes! Veți fi notificat când va fi confirmată.');
             navigate(AppRoutes.MY_APPOINTMENTS);
             return;
         } catch (error) {
-            toast("Eroare", {
-                description: 'Rezervarea nu a putut fi efectuată. Vă rugăm să încercați din nou.',
-            })
+            handleSupabaseError(error, 'Rezervarea nu a putut fi efectuată. Vă rugăm să încercați din nou.');
         } finally {
             setShowConfirmDialog(false);
             setSelectedTimeSlot(null);

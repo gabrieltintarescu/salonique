@@ -1,6 +1,7 @@
 import { AppRoutes } from "@/AppRouter"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { useErrorHandler } from "@/hooks/useErrorHandler"
 import { supabase } from "@/lib/supabase"
 import { cn } from "@/lib/utils"
 import HCaptcha from '@hcaptcha/react-hcaptcha'
@@ -20,6 +21,7 @@ export function ClientLoginForm({
   const captchaRef = useRef<HCaptcha>(null)
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const { handleSupabaseError } = useErrorHandler();
 
 
 
@@ -53,9 +55,7 @@ export function ClientLoginForm({
     await new Promise(resolve => setTimeout(resolve, 2000))
     setLoading(false)
     if (error) {
-      toast("Oops!", {
-        description: error.message,
-      })
+      handleSupabaseError(error);
     } else {
       // Get redirect URL from query params or use default
       const redirectUrl = searchParams.get('redirectUrl') || AppRoutes.MY_APPOINTMENTS
@@ -85,9 +85,7 @@ export function ClientLoginForm({
 
     setLoading(false)
     if (error) {
-      toast("Oops!", {
-        description: error.message,
-      })
+      handleSupabaseError(error);
     }
     // On success, Supabase will redirect to the specified URL
   }
