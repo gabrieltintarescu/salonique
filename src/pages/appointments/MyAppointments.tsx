@@ -1,6 +1,7 @@
 import { AppRoutes } from '@/AppRouter';
 import { PageLoader, withMinimumDelay } from "@/components/animations/LoadingComponents";
 import { fadeIn, staggerContainer, staggerItem } from "@/components/animations/PageTransition";
+import Footer from '@/components/homepage/footer';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/homepage/ui/avatar';
 import { Badge } from '@/components/homepage/ui/badge';
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '@/components/homepage/ui/sheet';
@@ -465,14 +466,14 @@ export default function MyAppointments() {
 
     return (
         <motion.div
-            className="min-h-screen bg-background"
+            className="bg-background"
             variants={fadeIn}
             initial="hidden"
             animate="visible"
         >
             <AppointmentsNavigation />
             <motion.div
-                className="max-w-4xl mx-auto px-6 py-8 space-y-8"
+                className="min-h-[100vh] max-w-4xl mx-auto px-6 py-8 space-y-8"
                 variants={staggerContainer}
                 initial="hidden"
                 animate="visible"
@@ -729,6 +730,9 @@ export default function MyAppointments() {
                     </AlertDialogFooter>
                 </AlertDialogContent>
             </AlertDialog>
+            <Footer />
+
         </motion.div>
+
     );
 }
