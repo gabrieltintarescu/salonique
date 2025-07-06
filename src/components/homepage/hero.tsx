@@ -19,8 +19,8 @@ const Hero = () => {
           <p className="mt-6 max-w-[60ch] xs:text-lg">
             Programează-te rapid și ușor, gestionează-ți clienții și optimizează-ți activitatea cu platforma noastră modernă de management al programărilor. Totul într-un singur loc, accesibil oricând!
           </p>
-          <div className="mt-12 flex flex-col sm:flex-row items-center gap-4">
-            <Link to={AppRoutes.PROFESSIONAL_LOGIN}>
+          <div className="mt-12 flex flex-col sm:flex-row items-center gap-4 w-full">
+            <Link to={AppRoutes.PROFESSIONAL_LOGIN} className="w-64 sm:w-auto">
               <Button
                 size="lg"
                 className="w-full sm:w-auto rounded-full text-base"
@@ -28,7 +28,7 @@ const Hero = () => {
                 Începe acum <ArrowUpRight className="h-5! w-5!" />
               </Button>
             </Link>
-            <Link to={AppRoutes.CLIENT_LOGIN}>
+            <Link to={AppRoutes.CLIENT_LOGIN} className="w-64 sm:w-auto">
               <Button
                 variant="outline"
                 size="lg"
