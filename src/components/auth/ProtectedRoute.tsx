@@ -1,4 +1,5 @@
 import { AppRoutes } from "@/AppRouter";
+import { PageLoader } from "@/components/animations/LoadingComponents";
 import { supabase } from "@/lib/supabase";
 import { useEffect, useState } from "react";
 import { Navigate, useLocation } from "react-router-dom";
@@ -47,7 +48,7 @@ export function ProtectedRoute({
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>; // Or your loading component
+    return <PageLoader message="Verificăm autentificarea..." />;
   }
 
   // If auth is required but user is not logged in

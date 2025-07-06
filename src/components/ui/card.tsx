@@ -1,18 +1,42 @@
-import * as React from "react"
+import { motion } from "framer-motion";
+import * as React from "react";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 function Card({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="card"
       className={cn(
-        "bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm",
+        "bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm transition-all duration-200 hover:shadow-md",
         className
       )}
       {...props}
     />
   )
+}
+
+function AnimatedCard({
+  className,
+  children,
+  whileHover = { y: -4, scale: 1.02 },
+  transition = { type: "spring", stiffness: 300, damping: 20 },
+  ...props
+}: React.ComponentProps<"div"> & {
+  whileHover?: any;
+  transition?: any;
+}) {
+  return (
+    <motion.div
+      whileHover={whileHover}
+      transition={transition}
+      className="cursor-pointer"
+    >
+      <Card className={className} {...props}>
+        {children}
+      </Card>
+    </motion.div>
+  );
 }
 
 function CardHeader({ className, ...props }: React.ComponentProps<"div">) {
@@ -82,11 +106,6 @@ function CardFooter({ className, ...props }: React.ComponentProps<"div">) {
 }
 
 export {
-  Card,
-  CardHeader,
-  CardFooter,
-  CardTitle,
-  CardAction,
-  CardDescription,
-  CardContent,
-}
+  AnimatedCard, Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle
+};
+

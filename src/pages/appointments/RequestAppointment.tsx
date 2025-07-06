@@ -1,5 +1,8 @@
 import { AppRoutes } from '@/AppRouter';
+import { PageLoader, withMinimumDelay } from "@/components/animations/LoadingComponents";
+import { fadeIn, staggerContainer, staggerItem } from "@/components/animations/PageTransition";
 import { ro } from 'date-fns/locale';
+import { motion } from "framer-motion";
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ScheduleMeeting, type StartTimeEventEmit } from 'react-schedule-meeting';
@@ -39,6 +42,7 @@ export default function RequestAppointment() {
     const [showConfirmDialog, setShowConfirmDialog] = useState(false);
     const [selectedTimeSlot, setSelectedTimeSlot] = useState<Date | null>(null);
     const [professionalExists, setProfessionalExists] = useState<boolean | null>(null);
+    const [isNavigating, setIsNavigating] = useState(false);
     const professionalId = searchParams.get('professionalId');
     const [professionalName, setProfessionalName] = useState<string | null>(null);
     const { handleSupabaseError, handleSuccess } = useErrorHandler();
@@ -168,21 +172,31 @@ export default function RequestAppointment() {
 
             setLoading(true);
 
-            // Validate professional existence
-            const isProfessionalValid = await validateProfessional(professionalId);
-            setProfessionalExists(isProfessionalValid);
+            // Create the data loading promise
+            const loadData = async () => {
+                // Validate professional existence
+                const isProfessionalValid = await validateProfessional(professionalId);
+                setProfessionalExists(isProfessionalValid);
 
-            if (!isProfessionalValid) {
+                if (!isProfessionalValid) {
+                    return;
+                }
+
+                const appointments = await fetchAppointments(professionalId);
+                console.log('Fetched appointments:', appointments);
+
+                const slots = calculateAvailableSlots(appointments);
+                setAvailableTimeslots(slots);
+            };
+
+            try {
+                // Apply minimum delay to the load operation
+                await withMinimumDelay(loadData());
+            } catch (error) {
+                console.error('Error loading appointments:', error);
+            } finally {
                 setLoading(false);
-                return;
             }
-
-            const appointments = await fetchAppointments(professionalId);
-            console.log('Fetched appointments:', appointments);
-
-            const slots = calculateAvailableSlots(appointments);
-            setAvailableTimeslots(slots);
-            setLoading(false);
         };
 
         loadAppointments();
@@ -243,7 +257,7 @@ export default function RequestAppointment() {
             }
 
             handleSuccess('Rezervarea a fost trimisă cu succes! Veți fi notificat când va fi confirmată.');
-            navigate(AppRoutes.MY_APPOINTMENTS);
+            navigateToMyAppointments();
             return;
         } catch (error) {
             handleSupabaseError(error, 'Rezervarea nu a putut fi efectuată. Vă rugăm să încercați din nou.');
@@ -258,12 +272,28 @@ export default function RequestAppointment() {
         setSelectedTimeSlot(null);
     };
 
-    if (!professionalId) {
+    // Helper function to navigate to MyAppointments without showing invalid page
+    const navigateToMyAppointments = () => {
+        setIsNavigating(true);
+        navigate(AppRoutes.MY_APPOINTMENTS, { replace: true });
+    };
+
+    if (!professionalId && !isNavigating) {
         // Show invalid professional ID state
         return (
-            <div className="flex flex-col items-center justify-center min-h-[500px] px-4 text-center">
-                <div className="max-w-md mx-auto">
-                    <div className="mb-6">
+            <motion.div
+                className="flex flex-col items-center justify-center min-h-[500px] px-4 text-center"
+                variants={fadeIn}
+                initial="hidden"
+                animate="visible"
+            >
+                <motion.div
+                    className="max-w-md mx-auto"
+                    variants={staggerContainer}
+                    initial="hidden"
+                    animate="visible"
+                >
+                    <motion.div className="mb-6" variants={staggerItem}>
                         <div className="mx-auto w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mb-4">
                             <svg
                                 className="w-10 h-10 text-red-400"
@@ -285,40 +315,50 @@ export default function RequestAppointment() {
                         <p className="text-gray-600 mb-6">
                             Linkul pe care l-ați accesat nu este valid sau este incomplet. Vă rugăm să verificați linkul sau să alegeți un specialist din lista noastră.
                         </p>
-                    </div>
-                    <div className="space-y-3">
-                        <button
-                            onClick={() => navigate(AppRoutes.MY_APPOINTMENTS)}
+                    </motion.div>
+                    <motion.div className="space-y-3" variants={staggerItem}>
+                        <motion.button
+                            onClick={navigateToMyAppointments}
                             className="w-full bg-gray-900 text-white px-6 py-3 rounded-lg hover:bg-gray-800 transition-colors font-medium cursor-pointer"
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
                         >
                             Înapoi la programările mele
-                        </button>
-                        <button
+                        </motion.button>
+                        <motion.button
                             onClick={() => navigate(-1)}
                             className="w-full bg-gray-100 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-200 transition-colors font-medium cursor-pointer"
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
                         >
                             Înapoi la pagina anterioară
-                        </button>
-                    </div>
-                </div>
-            </div>
+                        </motion.button>
+                    </motion.div>
+                </motion.div>
+            </motion.div>
         );
     }
 
     if (loading) {
-        return (
-            <div className="flex items-center justify-center min-h-[400px]">
-                <p className="text-lg text-gray-600">Se încarcă intervalele de timp disponibile...</p>
-            </div>
-        );
+        return <PageLoader message="Se încarcă intervalele de timp disponibile..." />;
     }
 
     // Show professional not found state
     if (professionalExists === false) {
         return (
-            <div className="flex flex-col items-center justify-center min-h-[500px] px-4 text-center">
-                <div className="max-w-md mx-auto">
-                    <div className="mb-6">
+            <motion.div
+                className="flex flex-col items-center justify-center min-h-[500px] px-4 text-center"
+                variants={fadeIn}
+                initial="hidden"
+                animate="visible"
+            >
+                <motion.div
+                    className="max-w-md mx-auto"
+                    variants={staggerContainer}
+                    initial="hidden"
+                    animate="visible"
+                >
+                    <motion.div className="mb-6" variants={staggerItem}>
                         <div className="mx-auto w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mb-4">
                             <svg
                                 className="w-10 h-10 text-gray-400"
@@ -340,43 +380,72 @@ export default function RequestAppointment() {
                         <p className="text-gray-600 mb-6">
                             Ne pare rău, dar specialistul pe care îl căutați nu a fost găsit sau nu mai este disponibil.
                         </p>
-                    </div>
-                    <div className="space-y-3">
-                        <button
-                            onClick={() => navigate(AppRoutes.MY_APPOINTMENTS)}
+                    </motion.div>
+                    <motion.div className="space-y-3" variants={staggerItem}>
+                        <motion.button
+                            onClick={navigateToMyAppointments}
                             className="w-full bg-gray-900 text-white px-6 py-3 rounded-lg hover:bg-gray-800 transition-colors font-medium cursor-pointer"
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
                         >
                             Înapoi la programările mele
-                        </button>
-                        <button
+                        </motion.button>
+                        <motion.button
                             onClick={() => navigate(-1)}
                             className="w-full bg-gray-100 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-200 transition-colors font-medium cursor-pointer"
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
                         >
                             Înapoi la pagina anterioară
-                        </button>
-                    </div>
-                </div>
-            </div>
+                        </motion.button>
+                    </motion.div>
+                </motion.div>
+            </motion.div>
         );
     }
 
     return (
-        <>
+        <motion.div
+
+            variants={fadeIn}
+            initial="hidden"
+            animate="visible"
+        >
             {availableTimeslots.length === 0 ? (
-                <div className="text-center text-gray-600">
-                    <p>Nu s-au găsit intervale de timp disponibile pentru acest specialist.</p>
-                    <p className="mt-2">Vă rugăm să încercați din nou mai târziu sau să contactați specialistul direct.</p>
-                </div>
+                <motion.div
+                    className="text-center text-gray-600"
+                    variants={staggerContainer}
+                    initial="hidden"
+                    animate="visible"
+                >
+                    <motion.p variants={staggerItem}>
+                        Nu s-au găsit intervale de timp disponibile pentru acest specialist.
+                    </motion.p>
+                    <motion.p className="mt-2" variants={staggerItem}>
+                        Vă rugăm să încercați din nou mai târziu sau să contactați specialistul direct.
+                    </motion.p>
+                </motion.div>
             ) : (
-                <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+                <motion.div
+                    className="bg-white rounded-lg border border-gray-200 overflow-hidden"
+                    variants={staggerContainer}
+                    initial="hidden"
+                    animate="visible"
+                >
                     {/* Calendar topbar */}
-                    <div className="flex items-center justify-between px-4 py-3 bg-gray-50 border-b border-gray-200">
+                    <motion.div
+                        className="flex items-center justify-between px-4 py-3 bg-gray-50 border-b border-gray-200"
+                        variants={staggerItem}
+                    >
                         <h3 className="text-lg font-medium text-gray-900">
                             Selectează o programare
                         </h3>
-                        <button
-                            onClick={() => navigate(AppRoutes.MY_APPOINTMENTS)}
+                        <motion.button
+                            onClick={navigateToMyAppointments}
                             className="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-gray-700 hover:bg-gray-200 rounded-full transition-colors cursor-pointer"
+                            whileHover={{ scale: 1.1, rotate: 90 }}
+                            whileTap={{ scale: 0.9 }}
+                            transition={{ type: "spring", stiffness: 400, damping: 17 }}
                         >
                             <svg
                                 className="w-5 h-5"
@@ -391,11 +460,15 @@ export default function RequestAppointment() {
                                     d="M6 18L18 6M6 6l12 12"
                                 />
                             </svg>
-                        </button>
-                    </div>
+                        </motion.button>
+                    </motion.div>
 
                     {/* Calendar content */}
-                    <div className="p-4" style={{ textTransform: 'capitalize' }}>
+                    <motion.div
+                        className="p-4"
+                        style={{ textTransform: 'capitalize' }}
+                        variants={staggerItem}
+                    >
                         <ScheduleMeeting
                             borderRadius={8}
                             primaryColor="#4a5568"
@@ -414,8 +487,8 @@ export default function RequestAppointment() {
                             lang_noFutureTimesText="Nu sunt ore disponibile în viitor"
                             lang_selectedButtonText="Selectat:"
                         />
-                    </div>
-                </div>
+                    </motion.div>
+                </motion.div>
             )}
 
             <AlertDialog open={showConfirmDialog} onOpenChange={setShowConfirmDialog}>
@@ -464,6 +537,6 @@ export default function RequestAppointment() {
                     </AlertDialogFooter>
                 </AlertDialogContent>
             </AlertDialog>
-        </>
+        </motion.div>
     );
 }

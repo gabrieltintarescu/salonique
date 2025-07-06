@@ -1,7 +1,9 @@
 "use client";
 
+import { fadeIn, staggerContainer } from "@/components/animations/PageTransition";
 import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback } from "@radix-ui/react-avatar";
+import { motion } from "framer-motion";
 import { StarIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import avatar1 from '../../assets/testimonial/1.webp';
@@ -87,15 +89,29 @@ const Testimonial = () => {
   }, [api]);
 
   return (
-    <div
+    <motion.div
       id="recenzii"
       className="w-full max-w-(--breakpoint-xl) mx-auto py-6 xs:py-12 px-6"
+      variants={fadeIn}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-100px" }}
     >
-      <h2 className="mb-8 xs:mb-14 text-4xl md:text-5xl font-bold text-center tracking-tight">
+      <motion.h2
+        className="mb-8 xs:mb-14 text-4xl md:text-5xl font-bold text-center tracking-tight"
+        variants={fadeIn}
+        transition={{ delay: 0.2 }}
+      >
         Ce spun clienții noștri
-      </h2>
+      </motion.h2>
       <div className="h-8 xs:h-12" />
-      <div className="container w-full mx-auto">
+      <motion.div
+        className="container w-full mx-auto"
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-50px" }}
+      >
         <Carousel setApi={setApi}>
           <CarouselContent>
             {testimonials.map((testimonial) => (
@@ -116,8 +132,8 @@ const Testimonial = () => {
             />
           ))}
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 

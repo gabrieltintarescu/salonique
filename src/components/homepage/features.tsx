@@ -1,4 +1,6 @@
+import { fadeIn, hoverLift, staggerContainer, staggerItem } from "@/components/animations/PageTransition";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { motion } from "framer-motion";
 import {
   BookCheck,
   ChartPie,
@@ -62,42 +64,73 @@ const features = [
 
 const Features = () => {
   return (
-    <div
+    <motion.div
       id="avantaje"
       className="max-w-(--breakpoint-xl) mx-auto w-full py-12 xs:py-20 px-6"
+      variants={fadeIn}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-100px" }}
     >
-      <h2 className="text-3xl xs:text-4xl md:text-5xl md:leading-[3.5rem] font-bold tracking-tight sm:max-w-xl sm:text-center sm:mx-auto">
+      <motion.h2
+        className="text-3xl xs:text-4xl md:text-5xl md:leading-[3.5rem] font-bold tracking-tight sm:max-w-xl sm:text-center sm:mx-auto"
+        variants={fadeIn}
+        transition={{ delay: 0.2 }}
+      >
         Funcționalități inteligente pentru programări eficiente
-      </h2>
+      </motion.h2>
       <div className="h-8 xs:h-12" />
-      <div className="mt-8 xs:mt-14 w-full mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-12">
-        {features.map((feature) => (
-          <Card
+      <motion.div
+        className="mt-8 xs:mt-14 w-full mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-12"
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-50px" }}
+      >
+        {features.map((feature, index) => (
+          <motion.div
             key={feature.title}
-            className="flex flex-col border rounded-xl overflow-hidden shadow-none"
+            variants={staggerItem}
+            custom={index}
           >
-            <CardHeader>
-              <feature.icon />
-              <h4 className="mt-3! text-xl font-bold tracking-tight">
-                {feature.title}
-              </h4>
-              <p className="mt-1 text-muted-foreground text-sm xs:text-[17px]">
-                {feature.description}
-              </p>
-            </CardHeader>
-            <CardContent className="mt-auto px-0 pb-0">
-              <div className="bg-muted h-52 ml-6 rounded-tl-xl">
-                <img
-                  src={feature.image}
-                  alt=""
-                  className="object-cover rounded-xl"
-                />
-              </div>
-            </CardContent>
-          </Card>
+            <motion.div
+              whileHover={hoverLift}
+              transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            >
+              <Card className="flex flex-col border rounded-xl overflow-hidden shadow-none h-full">
+                <CardHeader>
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.1 + 0.3, duration: 0.4, ease: "easeOut" }}
+                    viewport={{ once: true }}
+                  >
+                    <feature.icon className="h-8 w-8 text-primary" />
+                  </motion.div>
+                  <h4 className="mt-3! text-xl font-bold tracking-tight">
+                    {feature.title}
+                  </h4>
+                  <p className="mt-1 text-muted-foreground text-sm xs:text-[17px]">
+                    {feature.description}
+                  </p>
+                </CardHeader>
+                <CardContent className="mt-auto px-0 pb-0">
+                  <div className="bg-muted h-52 ml-6 rounded-tl-xl overflow-hidden">
+                    <motion.img
+                      src={feature.image}
+                      alt=""
+                      className="object-cover rounded-xl w-full h-full"
+                      whileHover={{ scale: 1.05 }}
+                      transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                    />
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
+          </motion.div>
         ))}
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 

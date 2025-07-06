@@ -9,6 +9,7 @@ import ProfessionalDashboard from "@/pages/dashboard/ProfessionalDashboard";
 import NotFound from "@/pages/NotFound";
 import ClientProfile from "@/pages/profile/ClientProfile";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { PageTransition } from "./components/animations/PageTransition";
 import { ProtectedRoute } from "./components/auth/ProtectedRoute";
 import Home from "./pages/HomePage";
 
@@ -32,30 +33,40 @@ export default function AppRouter() {
     return (
         <Router>
             <Routes>
-                <Route path={AppRoutes.ROOT} element={<Home />} />
+                <Route path={AppRoutes.ROOT} element={
+                    <PageTransition>
+                        <Home />
+                    </PageTransition>
+                } />
                 {/* Public routes that redirect if logged in */}
                 <Route
                     path={AppRoutes.CLIENT_LOGIN}
                     element={
-                        <ProtectedRoute requireAuth={false}>
-                            <ClientLogin />
-                        </ProtectedRoute>
+                        <PageTransition>
+                            <ProtectedRoute requireAuth={false}>
+                                <ClientLogin />
+                            </ProtectedRoute>
+                        </PageTransition>
                     }
                 />
                 <Route
                     path={AppRoutes.CLIENT_REGISTER}
                     element={
-                        <ProtectedRoute requireAuth={false}>
-                            <ClientRegister />
-                        </ProtectedRoute>
+                        <PageTransition>
+                            <ProtectedRoute requireAuth={false}>
+                                <ClientRegister />
+                            </ProtectedRoute>
+                        </PageTransition>
                     }
                 />
                 <Route
                     path={AppRoutes.PROFESSIONAL_LOGIN}
                     element={
-                        <ProtectedRoute requireAuth={false}>
-                            <ProfessionalLogin />
-                        </ProtectedRoute>
+                        <PageTransition>
+                            <ProtectedRoute requireAuth={false}>
+                                <ProfessionalLogin />
+                            </ProtectedRoute>
+                        </PageTransition>
                     }
                 />
 
@@ -63,39 +74,59 @@ export default function AppRouter() {
                 <Route
                     path={AppRoutes.MY_APPOINTMENTS}
                     element={
-                        <ProtectedRoute userType="client">
-                            <MyAppointments />
-                        </ProtectedRoute>
+                        <PageTransition>
+                            <ProtectedRoute userType="client">
+                                <MyAppointments />
+                            </ProtectedRoute>
+                        </PageTransition>
                     }
                 />
                 <Route
                     path={AppRoutes.REQUEST_APPOINTMENT}
                     element={
-                        <ProtectedRoute userType="client" delay={1000} >
-                            <RequestAppointment />
-                        </ProtectedRoute>
+                        <PageTransition>
+                            <ProtectedRoute userType="client" delay={1000} >
+                                <RequestAppointment />
+                            </ProtectedRoute>
+                        </PageTransition>
                     }
                 />
                 <Route
                     path={AppRoutes.PROFESSIONAL_DASHBOARD}
                     element={
-                        <ProtectedRoute userType="professional">
-                            <ProfessionalDashboard />
-                        </ProtectedRoute>
+                        <PageTransition>
+                            <ProtectedRoute userType="professional">
+                                <ProfessionalDashboard />
+                            </ProtectedRoute>
+                        </PageTransition>
                     }
                 />
                 <Route
                     path={AppRoutes.CLIENT_PROFILE}
                     element={
-                        <ProtectedRoute userType="client">
-                            <ClientProfile />
-                        </ProtectedRoute>
+                        <PageTransition>
+                            <ProtectedRoute userType="client">
+                                <ClientProfile />
+                            </ProtectedRoute>
+                        </PageTransition>
                     }
                 />
 
-                <Route path="*" element={<NotFound />} />
-                <Route path={AppRoutes.EMAIL_CONFIRMATION} element={<EmailConfirmation />} />
-                <Route path={AppRoutes.GOOGLE_ACCOUNT_SETUP} element={<GoogleAccountSetup />} />
+                <Route path="*" element={
+                    <PageTransition>
+                        <NotFound />
+                    </PageTransition>
+                } />
+                <Route path={AppRoutes.EMAIL_CONFIRMATION} element={
+                    <PageTransition>
+                        <EmailConfirmation />
+                    </PageTransition>
+                } />
+                <Route path={AppRoutes.GOOGLE_ACCOUNT_SETUP} element={
+                    <PageTransition>
+                        <GoogleAccountSetup />
+                    </PageTransition>
+                } />
             </Routes>
         </Router>
     );
