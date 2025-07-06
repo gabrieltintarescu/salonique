@@ -17,8 +17,15 @@ export default function EmailConfirmation() {
         const checkAuthState = async () => {
             const { data: { session } } = await supabase.auth.getSession()
             if (session?.user) {
-                // User is already logged in, redirect to appointments page
-                navigate(AppRoutes.MY_APPOINTMENTS)
+                toast("Succes!", {
+                    description: "Email-ul tău a fost confirmat cu succes! Vei fi redirecționat în curând...",
+                    duration: 3000,
+                });
+
+                // Add a delay to let users see the success message
+                setTimeout(() => {
+                    navigate(AppRoutes.MY_APPOINTMENTS);
+                }, 3000);
             }
         }
 
