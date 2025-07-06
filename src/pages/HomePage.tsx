@@ -5,11 +5,13 @@ import Hero from "@/components/homepage/hero";
 import Pricing from "@/components/homepage/pricing";
 import Testimonial from "@/components/homepage/testimonial";
 import Navbar from "@/components/navbar/navbar";
-
+import SEO from "@/components/SEO";
+import { seoConfigs } from "@/config/seo";
 
 export default function Home() {
   return (
     <>
+      <SEO {...seoConfigs.home} />
       <Navbar />
       <Hero />
       <Features />

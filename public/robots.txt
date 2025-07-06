@@ -1,0 +1,21 @@
+User-agent: *
+Allow: /
+
+# Block access to private/protected areas
+Disallow: /client/login
+Disallow: /client/register
+Disallow: /professional/login
+Disallow: /professional/register
+Disallow: /dashboard/
+Disallow: /profile/
+Disallow: /appointments/
+Disallow: /api/
+
+# Allow specific public pages
+Allow: /
+
+# Sitemap location
+Sitemap: https://salonique.com/sitemap.xml
+
+# Crawl delay (optional, adjust as needed)
+Crawl-delay: 1
