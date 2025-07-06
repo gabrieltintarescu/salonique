@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { supabase } from "@/lib/supabase"
 import { cn } from "@/lib/utils"
+import HCaptcha from '@hcaptcha/react-hcaptcha'
 import { useRef, useState } from "react"
 import { Link, useNavigate, useSearchParams } from "react-router-dom"
 import { toast, Toaster } from "sonner"
@@ -15,6 +16,8 @@ export function ClientLoginForm({
   const emailRef = useRef<HTMLInputElement>(null)
   const passwordRef = useRef<HTMLInputElement>(null)
   const [loading, setLoading] = useState(false)
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null)
+  const captchaRef = useRef<HCaptcha>(null)
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
@@ -26,7 +29,27 @@ export function ClientLoginForm({
     setLoading(true)
     const email = emailRef.current?.value || ""
     const password = passwordRef.current?.value || ""
-    const { error } = await supabase.auth.signInWithPassword({ email, password })
+
+    if (!captchaToken) {
+      toast("Oops!", {
+        description: 'Te rugăm să completezi verificarea captcha.',
+      })
+      setLoading(false)
+      return
+    }
+
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+      options: {
+        captchaToken
+      }
+    })
+
+    // Reset captcha after attempt
+    captchaRef.current?.resetCaptcha()
+    setCaptchaToken(null)
+
     await new Promise(resolve => setTimeout(resolve, 2000))
     setLoading(false)
     if (error) {
@@ -87,6 +110,18 @@ export function ClientLoginForm({
           </div>
           <Input id="password" type="password" required ref={passwordRef} />
         </div>
+
+        {/* hCaptcha Component */}
+        <div className="flex justify-center">
+          <HCaptcha
+            ref={captchaRef}
+            sitekey={import.meta.env.VITE_HCAPTCHA_SITE_KEY || ""}
+            onVerify={(token) => setCaptchaToken(token)}
+            onExpire={() => setCaptchaToken(null)}
+            onError={() => setCaptchaToken(null)}
+          />
+        </div>
+
         <Button type="submit" className="w-full cursor-pointer" disabled={loading}>
           {loading ? (
             <span className="flex items-center justify-center">

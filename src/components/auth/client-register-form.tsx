@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { supabase } from "@/lib/supabase"
 import { cn } from "@/lib/utils"
+import HCaptcha from '@hcaptcha/react-hcaptcha'
 import { useRef, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { toast, Toaster } from "sonner"
@@ -18,6 +19,8 @@ export function ClientRegisterForm({
   const nameRef = useRef<HTMLInputElement>(null)
   const phoneRef = useRef<HTMLInputElement>(null)
   const [loading, setLoading] = useState(false)
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null)
+  const captchaRef = useRef<HCaptcha>(null)
   const navigate = useNavigate();
 
 
@@ -31,6 +34,15 @@ export function ClientRegisterForm({
     const confirmPassword = confirmPasswordRef.current?.value || ""
     const name = nameRef.current?.value?.trim() || ""
     const phone = phoneRef.current?.value?.trim() || ""
+
+    if (!captchaToken) {
+      toast("Oops", {
+        description: 'Te rugăm să completezi verificarea captcha.',
+      })
+      setLoading(false)
+      return
+    }
+
     if (!name) {
       toast("Oops", {
         description: 'Numele este obligatoriu.',
@@ -66,12 +78,18 @@ export function ClientRegisterForm({
       password,
       options: {
         emailRedirectTo: `${window.location.origin}${AppRoutes.EMAIL_CONFIRMATION}?email=${encodeURIComponent(email)}`,
+        captchaToken,
         data: {
           name,
           phone,
         },
       },
     })
+
+    // Reset captcha after attempt
+    captchaRef.current?.resetCaptcha()
+    setCaptchaToken(null)
+
     if (error) {
       setLoading(false)
       toast("Oops", {
@@ -154,6 +172,18 @@ export function ClientRegisterForm({
           <Label htmlFor="confirmPassword">Confirmă parola</Label>
           <Input id="confirmPassword" type="password" required ref={confirmPasswordRef} />
         </div>
+
+        {/* hCaptcha Component */}
+        <div className="flex justify-center">
+          <HCaptcha
+            ref={captchaRef}
+            sitekey={import.meta.env.VITE_HCAPTCHA_SITE_KEY || ""}
+            onVerify={(token) => setCaptchaToken(token)}
+            onExpire={() => setCaptchaToken(null)}
+            onError={() => setCaptchaToken(null)}
+          />
+        </div>
+
         <Button type="submit" className="w-full cursor-pointer" disabled={loading}>
           {loading ? (
             <span className="flex items-center justify-center">
