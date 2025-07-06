@@ -24,7 +24,7 @@ export default function EmailConfirmation() {
 
                 // Add a delay to let users see the success message
                 setTimeout(() => {
-                    navigate(AppRoutes.MY_APPOINTMENTS);
+                    navigate(AppRoutes.CLIENT_LOGIN);
                 }, 3000);
             }
         }
