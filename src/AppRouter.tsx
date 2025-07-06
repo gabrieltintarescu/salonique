@@ -42,31 +42,34 @@ export default function AppRouter() {
                 <Route
                     path={AppRoutes.CLIENT_LOGIN}
                     element={
-                        <PageTransition>
-                            <ProtectedRoute requireAuth={false}>
+                        <ProtectedRoute requireAuth={false}>
+                            <PageTransition>
                                 <ClientLogin />
-                            </ProtectedRoute>
-                        </PageTransition>
+                            </PageTransition>
+                        </ProtectedRoute>
+
                     }
                 />
                 <Route
                     path={AppRoutes.CLIENT_REGISTER}
                     element={
-                        <PageTransition>
-                            <ProtectedRoute requireAuth={false}>
+                        <ProtectedRoute requireAuth={false}>
+                            <PageTransition>
                                 <ClientRegister />
-                            </ProtectedRoute>
-                        </PageTransition>
+                            </PageTransition>
+                        </ProtectedRoute>
+
                     }
                 />
                 <Route
                     path={AppRoutes.PROFESSIONAL_LOGIN}
                     element={
-                        <PageTransition>
-                            <ProtectedRoute requireAuth={false}>
+                        <ProtectedRoute requireAuth={false}>
+                            <PageTransition>
                                 <ProfessionalLogin />
-                            </ProtectedRoute>
-                        </PageTransition>
+                            </PageTransition>
+                        </ProtectedRoute>
+
                     }
                 />
 
@@ -74,44 +77,46 @@ export default function AppRouter() {
                 <Route
                     path={AppRoutes.MY_APPOINTMENTS}
                     element={
-                        <PageTransition>
-                            <ProtectedRoute userType="client">
+                        <ProtectedRoute userType="client">
+                            <PageTransition>
                                 <MyAppointments />
-                            </ProtectedRoute>
-                        </PageTransition>
+                            </PageTransition>
+                        </ProtectedRoute>
+
                     }
                 />
                 <Route
                     path={AppRoutes.REQUEST_APPOINTMENT}
                     element={
-                        <PageTransition>
-                            <ProtectedRoute userType="client" delay={1000} >
+                        <ProtectedRoute userType="client" delay={1000} >
+                            <PageTransition>
                                 <RequestAppointment />
-                            </ProtectedRoute>
-                        </PageTransition>
+                            </PageTransition>
+                        </ProtectedRoute>
+
                     }
                 />
                 <Route
                     path={AppRoutes.PROFESSIONAL_DASHBOARD}
                     element={
-                        <PageTransition>
-                            <ProtectedRoute userType="professional">
+                        <ProtectedRoute userType="professional">
+                            <PageTransition>
                                 <ProfessionalDashboard />
-                            </ProtectedRoute>
-                        </PageTransition>
+                            </PageTransition>
+                        </ProtectedRoute>
+
                     }
                 />
                 <Route
                     path={AppRoutes.CLIENT_PROFILE}
                     element={
-                        <PageTransition>
-                            <ProtectedRoute userType="client">
+                        <ProtectedRoute userType="client">
+                            <PageTransition>
                                 <ClientProfile />
-                            </ProtectedRoute>
-                        </PageTransition>
+                            </PageTransition>
+                        </ProtectedRoute>
                     }
                 />
-
                 <Route path="*" element={
                     <PageTransition>
                         <NotFound />
@@ -128,6 +133,6 @@ export default function AppRouter() {
                     </PageTransition>
                 } />
             </Routes>
-        </Router>
+        </Router >
     );
 }
