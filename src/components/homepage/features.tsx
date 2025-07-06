@@ -99,14 +99,7 @@ const Features = () => {
             >
               <Card className="flex flex-col border rounded-xl overflow-hidden shadow-none h-full">
                 <CardHeader>
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.1 + 0.3, duration: 0.4, ease: "easeOut" }}
-                    viewport={{ once: true }}
-                  >
-                    <feature.icon className="h-8 w-8 text-primary" />
-                  </motion.div>
+                  <feature.icon className="h-8 w-8 text-primary" />
                   <h4 className="mt-3! text-xl font-bold tracking-tight">
                     {feature.title}
                   </h4>
