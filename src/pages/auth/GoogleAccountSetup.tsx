@@ -15,6 +15,7 @@ export default function GoogleAccountSetup() {
 
     useEffect(() => {
         const handleGoogleAuth = async () => {
+            await new Promise((resolve) => setTimeout(resolve, 1500))
             try {
                 // Get current user from Supabase
                 const { data: { user }, error: userError } = await supabase.auth.getUser()
