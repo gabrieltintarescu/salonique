@@ -19,6 +19,7 @@ import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import { Calendar, CalendarX, Clock, LockKeyhole, Menu, Trash2, User } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 
 type AppointmentStatus = 'requested' | 'confirmed';
 
@@ -70,7 +71,8 @@ export default function MyAppointments() {
                 .single();
 
             if (clientError || !clientData) {
-                setError('Nu s-a putut găsi profilul clientului');
+                toast.error('Nu s-a putut găsi profilul clientului. Te rugăm să te reconectezi.');
+                handleLogout();
                 return;
             }
 
