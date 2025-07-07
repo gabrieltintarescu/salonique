@@ -1,32 +1,22 @@
-import { useEffect } from "react";
+import { ScrollOptimizer } from "@/utils/scrollOptimizer";
+import { useEffect, useRef } from "react";
 
 export function SmoothScrollProvider({ children }: { children: React.ReactNode }) {
-    useEffect(() => {
-        // Enable smooth scrolling
-        document.documentElement.style.scrollBehavior = "smooth";
+  const scrollOptimizerRef = useRef<ScrollOptimizer | null>(null);
 
-        // Add scroll event listener for performance optimizations
-        let ticking = false;
+  useEffect(() => {
+    // Initialize scroll optimizer
+    scrollOptimizerRef.current = ScrollOptimizer.getInstance();
+    scrollOptimizerRef.current.initializeScrollOptimization();
 
-        const handleScroll = () => {
-            if (!ticking) {
-                requestAnimationFrame(() => {
-                    // Add any scroll-based animations here
-                    ticking = false;
-                });
-                ticking = true;
-            }
-        };
+    return () => {
+      if (scrollOptimizerRef.current) {
+        scrollOptimizerRef.current.cleanup();
+      }
+    };
+  }, []);
 
-        window.addEventListener("scroll", handleScroll, { passive: true });
-
-        return () => {
-            window.removeEventListener("scroll", handleScroll);
-            document.documentElement.style.scrollBehavior = "auto";
-        };
-    }, []);
-
-    return <>{children}</>;
+  return <>{children}</>;
 }
 
 // Enhanced CSS for better performance

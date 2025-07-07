@@ -1,13 +1,15 @@
+import { fadeIn, hoverLift, staggerContainer, staggerItem } from "@/components/animations/PageTransition";
 import { cn } from "@/lib/utils";
-import { CircleCheck } from "lucide-react";
+import { motion } from "framer-motion";
+import { CircleCheck, Star, Zap } from "lucide-react";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
-import { Separator } from "./ui/separator";
 
 const plans = [
   {
     name: "Start",
     price: 149,
+    period: "lună",
     description:
       "Ideal pentru profesioniști la început de drum. Gestionează până la 50 de programări pe lună și trimite notificări automate clienților.",
     features: [
@@ -18,10 +20,12 @@ const plans = [
       "Suport prin email",
     ],
     buttonText: "Începe cu Start",
+    color: "from-purple-500 to-purple-600",
   },
   {
     name: "Avansat",
     price: 299,
+    period: "lună",
     isRecommended: true,
     description:
       "Pentru afaceri în creștere. Include programări nelimitate, SMS reminders și rapoarte detaliate.",
@@ -34,10 +38,12 @@ const plans = [
     ],
     buttonText: "Alege Avansat",
     isPopular: true,
+    color: "from-purple-500 to-pink-500",
   },
   {
     name: "Premium",
     price: 499,
+    period: "lună",
     description:
       "Soluție completă pentru echipe mari sau saloane cu mai multe locații. Include funcții avansate de management și integrare cu website-ul.",
     features: [
@@ -48,56 +54,157 @@ const plans = [
       "Personalizare platformă",
     ],
     buttonText: "Alege Premium",
+    color: "from-purple-400 to-purple-500",
   },
 ];
 
 const Pricing = () => {
   return (
-    <div id="preturi" className="max-w-(--breakpoint-lg) mx-auto py-12 xs:py-20 px-6">
-      <h1 className="text-4xl xs:text-5xl font-bold text-center tracking-tight">
-        Pachete și prețuri
-      </h1>
-      <div className="mt-8 xs:mt-14 grid grid-cols-1 lg:grid-cols-3 items-center gap-8 lg:gap-0">
-        {plans.map((plan) => (
-          <div
-            key={plan.name}
-            className={cn(
-              "relative bg-accent/50 border p-7 rounded-xl lg:rounded-none lg:first:rounded-l-xl lg:last:rounded-r-xl",
-              {
-                "bg-background border-[2px] border-primary py-12 rounded-xl!":
-                  plan.isPopular,
-              }
-            )}
-          >
-            {plan.isPopular && (
-              <Badge className="absolute top-0 right-1/2 translate-x-1/2 -translate-y-1/2">
-                Most Popular
-              </Badge>
-            )}
-            <h3 className="text-lg font-medium">{plan.name}</h3>
-            <p className="mt-2 text-4xl font-bold">{plan.price} lei</p>
-            <p className="mt-4 font-medium text-muted-foreground">
-              {plan.description}
-            </p>
-            <Separator className="my-6" />
-            <ul className="space-y-2">
-              {plan.features.map((feature) => (
-                <li key={feature} className="flex items-start gap-2">
-                  <CircleCheck className="h-4 w-4 mt-1 text-green-600" />
-                  {feature}
-                </li>
-              ))}
-            </ul>
-            <Button
-              variant={plan.isPopular ? "default" : "outline"}
-              size="lg"
-              className="w-full mt-6 rounded-full"
-            >
-              {plan.buttonText}
-            </Button>
-          </div>
-        ))}
+    <div className="py-16 gradient-bg relative overflow-hidden">
+      {/* Background decorative elements */}
+      <div className="absolute top-0 left-0 w-full h-full">
+        <div className="absolute top-20 left-20 w-40 h-40 gradient-purple-soft rounded-full opacity-30 blur-2xl"></div>
+        <div className="absolute bottom-20 right-20 w-48 h-48 bg-gray-200 rounded-full opacity-30 blur-2xl"></div>
       </div>
+
+      <motion.div
+        id="preturi"
+        className="max-w-7xl mx-auto px-6 relative z-10"
+        variants={fadeIn}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-100px" }}
+      >
+        <motion.div
+          className="text-center mb-16"
+          variants={fadeIn}
+          transition={{ delay: 0.2 }}
+        >
+          <h2 className="text-3xl xs:text-4xl md:text-5xl font-bold tracking-tight text-gray-900 mb-4">
+            Pachete și{" "}
+            <span className="text-gradient">
+              prețuri
+            </span>
+          </h2>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            Alege planul potrivit pentru afacerea ta. Toate planurile includ perioada de testare gratuită de 30 de zile
+          </p>
+        </motion.div>
+
+        <motion.div
+          className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-6xl mx-auto"
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-50px" }}
+        >
+          {plans.map((plan, index) => (
+            <motion.div
+              key={plan.name}
+              variants={staggerItem}
+              custom={index}
+            >
+              <motion.div
+                className={cn(
+                  "relative bg-white rounded-2xl p-8 border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300",
+                  {
+                    "ring-2 ring-purple-200 shadow-purple scale-105": plan.isPopular,
+                  }
+                )}
+                whileHover={hoverLift}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+              >
+                {plan.isPopular && (
+                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                    <Badge className="btn-gradient border-none px-4 py-2 rounded-full">
+                      <Star className="w-4 h-4 mr-1" />
+                      Cel mai popular
+                    </Badge>
+                  </div>
+                )}
+
+                <div className="flex items-center gap-3 mb-6">
+                  <div className={`w-12 h-12 bg-gradient-to-br ${plan.color} rounded-xl flex items-center justify-center`}>
+                    <Zap className="w-6 h-6 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-gray-900">{plan.name}</h3>
+                    <p className="text-sm text-gray-500">Plan {plan.name.toLowerCase()}</p>
+                  </div>
+                </div>
+
+                <div className="mb-6">
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-4xl font-bold text-gray-900">{plan.price}</span>
+                    <span className="text-gray-500">lei/{plan.period}</span>
+                  </div>
+                  <p className="text-gray-600 mt-2 leading-relaxed">
+                    {plan.description}
+                  </p>
+                </div>
+
+                <ul className="space-y-3 mb-8">
+                  {plan.features.map((feature) => (
+                    <li key={feature} className="flex items-start gap-3">
+                      <CircleCheck className="h-5 w-5 text-purple-500 mt-0.5 flex-shrink-0" />
+                      <span className="text-gray-700">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <Button
+                  className={cn(
+                    "w-full rounded-full py-6 text-base font-medium transition-all duration-200",
+                    plan.isPopular
+                      ? "btn-gradient border-none shadow-purple"
+                      : "bg-white border-2 border-gray-200 text-gray-900 hover:bg-gray-50 hover:border-gray-300"
+                  )}
+                >
+                  {plan.buttonText}
+                </Button>
+              </motion.div>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        {/* Additional info */}
+        <motion.div
+          className="text-center mt-16"
+          variants={fadeIn}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
+          <div className="bg-white rounded-2xl p-8 max-w-4xl mx-auto shadow-sm border border-gray-100">
+            <h3 className="text-2xl font-bold text-gray-900 mb-4">
+              Toate planurile includ
+            </h3>
+            <div className="grid md:grid-cols-3 gap-6 text-center">
+              <div className="flex flex-col items-center">
+                <div className="w-12 h-12 bg-gradient-to-br from-purple-400 to-purple-500 rounded-xl flex items-center justify-center mb-3">
+                  <CircleCheck className="w-6 h-6 text-white" />
+                </div>
+                <h4 className="font-medium text-gray-900 mb-1">30 zile gratuit</h4>
+                <p className="text-sm text-gray-600">Testează toate funcțiile</p>
+              </div>
+              <div className="flex flex-col items-center">
+                <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center mb-3">
+                  <Zap className="w-6 h-6 text-white" />
+                </div>
+                <h4 className="font-medium text-gray-900 mb-1">Fără contract</h4>
+                <p className="text-sm text-gray-600">Anulezi oricând</p>
+              </div>
+              <div className="flex flex-col items-center">
+                <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center mb-3">
+                  <Star className="w-6 h-6 text-white" />
+                </div>
+                <h4 className="font-medium text-gray-900 mb-1">Suport 24/7</h4>
+                <p className="text-sm text-gray-600">Echipa noastră te ajută</p>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      </motion.div>
     </div>
   );
 };

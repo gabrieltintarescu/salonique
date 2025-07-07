@@ -1,9 +1,7 @@
-
 import { fadeIn, staggerContainer, staggerItem } from "@/components/animations/PageTransition";
-import { cn } from "@/lib/utils";
 import * as AccordionPrimitive from "@radix-ui/react-accordion";
 import { motion } from "framer-motion";
-import { PlusIcon } from "lucide-react";
+import { ChevronDown, HelpCircle, MessageCircle } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem } from "./ui/accordion";
 
 const faq = [
@@ -11,101 +9,145 @@ const faq = [
     question: "Cum îmi pot crea un cont?",
     answer:
       "Apasă pe butonul de înregistrare și completează datele necesare. Vei primi un email de confirmare pentru activarea contului.",
+    category: "Primii pași"
   },
   {
     question: "Cum pot programa o întâlnire?",
     answer:
       "După autentificare, accesează secțiunea 'Programează' și selectează serviciul, data și ora dorite. Vei primi o confirmare pe email.",
+    category: "Programări"
   },
   {
     question: "Pot anula sau modifica o programare?",
     answer:
       "Da, poți anula sau modifica o programare din contul tău, la secțiunea 'Programările mele'. Vei primi o notificare cu modificarea efectuată.",
+    category: "Programări"
   },
   {
     question: "Cum primesc notificări despre programări?",
     answer:
       "Platforma trimite automat notificări pe email și/sau SMS înainte de fiecare programare, pentru a nu uita de întâlnire.",
+    category: "Notificări"
   },
   {
     question: "Este platforma potrivită pentru afacerea mea?",
     answer:
       "Da! Platforma este ideală pentru saloane, clinici, cabinete sau orice afacere care lucrează cu programări.",
+    category: "General"
   },
   {
     question: "Cum pot contacta echipa de suport?",
     answer:
       "Ne poți scrie oricând la suport@platforma-ta.ro sau direct din secțiunea de contact din platformă. Suntem aici să te ajutăm!",
+    category: "Suport"
   },
 ];
 
 const FAQ = () => {
   return (
-    <motion.div
-      id="faq"
-      className="w-full max-w-(--breakpoint-xl) mx-auto py-8 xs:py-16 px-6"
-      variants={fadeIn}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: "-100px" }}
-    >
-      <motion.h2
-        className="md:text-center text-3xl xs:text-4xl md:text-5xl leading-[1.15]! font-bold tracking-tighter"
-        variants={fadeIn}
-        transition={{ delay: 0.2 }}
-      >
-        Întrebări frecvente
-      </motion.h2>
-      <motion.p
-        className="mt-1.5 md:text-center xs:text-lg text-muted-foreground"
-        variants={fadeIn}
-        transition={{ delay: 0.3 }}
-      >
-        Răspunsuri rapide la cele mai comune întrebări despre platforma de programări.
-      </motion.p>
-      <div className="h-8 xs:h-12" />
-      <motion.div
-        className="min-h-[550px] md:min-h-[320px] xl:min-h-[300px]"
-        variants={staggerContainer}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "-50px" }}
-      >
-        <Accordion
-          type="single"
-          collapsible
-          className="mt-8 space-y-4 md:columns-2 gap-4"
+    <div className="py-16 bg-gradient-to-br from-slate-50 via-purple-50 to-pink-50 relative overflow-hidden">
+      {/* Modern background elements */}
+      <div className="absolute inset-0">
+        <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-gradient-to-r from-purple-200 to-pink-200 rounded-full opacity-20 blur-3xl"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-r from-purple-300 to-purple-400 rounded-full opacity-15 blur-3xl"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-r from-pink-200 to-purple-200 rounded-full opacity-10 blur-3xl"></div>
+      </div>
+
+      <div className="max-w-4xl mx-auto px-6 relative z-10">
+        <motion.div
+          className="text-center mb-12"
+          variants={fadeIn}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
         >
-          {faq.map(({ question, answer }, index) => (
+          <div className="flex items-center justify-center mb-5">
+            <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
+              <HelpCircle className="w-6 h-6 text-white" />
+            </div>
+          </div>
+          <h2 className="text-3xl xs:text-4xl md:text-4xl font-bold text-gray-900 mb-5">
+            Întrebări frecvente
+          </h2>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Găsește răspunsuri la cele mai comune întrebări despre platformă și serviciile noastre
+          </p>
+        </motion.div>
+
+        <motion.div
+          className="grid gap-4"
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
+          {faq.map((item, index) => (
             <motion.div
-              key={question}
+              key={index}
               variants={staggerItem}
               custom={index}
+              className="group"
             >
-              <AccordionItem
-                value={`question-${index}`}
-                className="bg-accent py-1 px-4 rounded-xl border-none mt-0! mb-4! break-inside-avoid hover:bg-accent/80 transition-colors duration-200"
-              >
-                <AccordionPrimitive.Header className="flex">
-                  <AccordionPrimitive.Trigger
-                    className={cn(
-                      "flex flex-1 items-center justify-between py-4 font-semibold tracking-tight transition-all hover:underline [&[data-state=open]>svg]:rotate-45",
-                      "text-start text-lg"
-                    )}
-                  >
-                    {question}
-                    <PlusIcon className="h-5 w-5 shrink-0 text-muted-foreground transition-transform duration-200" />
+              <Accordion type="single" collapsible className="w-full">
+                <AccordionItem value={`item-${index}`} className="border-none">
+                  <AccordionPrimitive.Trigger className="w-full bg-white/70 backdrop-blur-sm rounded-xl p-5 hover:bg-white/90 transition-all duration-300 group-hover:shadow-lg border border-purple-100/50">
+                    <div className="flex items-center justify-between w-full">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center flex-shrink-0">
+                          <MessageCircle className="w-5 h-5 text-white" />
+                        </div>
+                        <div className="text-left">
+                          <div className="text-xs font-medium text-purple-600 mb-1">
+                            {item.category}
+                          </div>
+                          <h3 className="text-base font-semibold text-gray-900">
+                            {item.question}
+                          </h3>
+                        </div>
+                      </div>
+                      <ChevronDown className="w-4 h-4 text-gray-500 group-data-[state=open]:rotate-180 transition-transform duration-200" />
+                    </div>
                   </AccordionPrimitive.Trigger>
-                </AccordionPrimitive.Header>
-                <AccordionContent className="text-[15px]">
-                  {answer}
-                </AccordionContent>
-              </AccordionItem>
+                  <AccordionContent className="pt-3 pb-0">
+                    <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg p-4 ml-13">
+                      <p className="text-sm text-gray-700 leading-relaxed">
+                        {item.answer}
+                      </p>
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
             </motion.div>
           ))}
-        </Accordion>
-      </motion.div>
-    </motion.div>
+        </motion.div>
+
+        {/* Contact CTA */}
+        <motion.div
+          className="mt-12 text-center"
+          variants={fadeIn}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
+          <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 border border-purple-100/50">
+            <h3 className="text-xl font-bold text-gray-900 mb-3">
+              Nu găsești răspunsul căutat?
+            </h3>
+            <p className="text-gray-600 mb-5">
+              Echipa noastră de suport este aici să te ajute cu orice întrebare
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <button className="px-6 py-2.5 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full font-medium hover:shadow-lg transition-shadow text-sm">
+                Contactează suportul
+              </button>
+              <button className="px-6 py-2.5 border border-purple-200 text-purple-600 rounded-full font-medium hover:bg-purple-50 transition-colors text-sm">
+                Vezi documentația
+              </button>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    </div>
   );
 };
 

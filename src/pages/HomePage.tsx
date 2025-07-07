@@ -1,55 +1,58 @@
-import { staggerContainer, staggerItem } from "@/components/animations/PageTransition";
-import FAQ from "@/components/homepage/faq";
-import Features from "@/components/homepage/features";
 import Footer from "@/components/homepage/footer";
 import Hero from "@/components/homepage/hero";
-import Pricing from "@/components/homepage/pricing";
-import Testimonial from "@/components/homepage/testimonial";
 import Navbar from "@/components/navbar/navbar";
 import SEO from "@/components/SEO";
 import { seoConfigs } from "@/config/seo";
-import { motion } from "framer-motion";
+import { lazy, Suspense } from "react";
+
+// Lazy load components to improve initial load performance
+const LazyAppPreview = lazy(() => import("@/components/homepage/app-preview"));
+const LazyStats = lazy(() => import("@/components/homepage/stats"));
+const LazyFeatures = lazy(() => import("@/components/homepage/features"));
+const LazyFAQ = lazy(() => import("@/components/homepage/faq"));
+const LazyTestimonial = lazy(() => import("@/components/homepage/testimonial"));
+const LazyPricing = lazy(() => import("@/components/homepage/pricing"));
 
 export default function Home() {
   return (
     <>
       <SEO {...seoConfigs.home} />
       <Navbar />
-      <motion.div
-        variants={staggerContainer}
-        initial="hidden"
-        animate="visible"
-        className="min-h-screen"
-      >
-        <motion.div variants={staggerItem}>
-          <Hero />
-        </motion.div>
+      <div className="min-h-screen">
+        {/* Hero always loads immediately */}
+        <Hero />
 
-        <motion.div variants={staggerItem}>
-          <Features />
-        </motion.div>
+        {/* Other components lazy loaded */}
+        <Suspense fallback={<div className="h-96 flex items-center justify-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500"></div>
+        </div>}>
+          <LazyAppPreview />
+        </Suspense>
 
-        <motion.div
-          variants={staggerItem}
-          className="h-8 xs:h-12"
-        />
+        <Suspense fallback={<div className="h-96"></div>}>
+          <LazyStats />
+        </Suspense>
 
-        <motion.div variants={staggerItem}>
-          <FAQ />
-        </motion.div>
+        <Suspense fallback={<div className="h-96"></div>}>
+          <LazyFeatures />
+        </Suspense>
 
-        <motion.div variants={staggerItem}>
-          <Testimonial />
-        </motion.div>
+        <div className="h-8 xs:h-12" />
 
-        <motion.div variants={staggerItem}>
-          <Pricing />
-        </motion.div>
+        <Suspense fallback={<div className="h-96"></div>}>
+          <LazyFAQ />
+        </Suspense>
 
-        <motion.div variants={staggerItem}>
-          <Footer />
-        </motion.div>
-      </motion.div>
+        <Suspense fallback={<div className="h-96"></div>}>
+          <LazyTestimonial />
+        </Suspense>
+
+        <Suspense fallback={<div className="h-96"></div>}>
+          <LazyPricing />
+        </Suspense>
+
+        <Footer />
+      </div>
     </>
   );
 }

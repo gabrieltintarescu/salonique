@@ -51,26 +51,26 @@ const footerSections = [
 
 const Footer = () => {
   return (
-    <footer className="mt-12 xs:mt-20 dark bg-background border-t">
+    <footer className="xs:mt-20 bg-gradient-to-br from-gray-50 to-white border-t border-gray-200">
       <div className="max-w-(--breakpoint-xl) mx-auto py-12 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 gap-x-8 gap-y-10 px-6">
         <div className="col-span-full xl:col-span-2">
           {/* Logo */}
           <Logo />
 
-          <p className="mt-4 text-muted-foreground">
+          <p className="mt-4 text-gray-600">
             Soluția modernă pentru gestionarea programărilor și clienților tăi. Simplu, rapid și eficient pentru orice afacere.
           </p>
         </div>
 
         {footerSections.map(({ title, links }) => (
           <div key={title} className="xl:justify-self-end">
-            <h6 className="font-semibold text-foreground">{title}</h6>
+            <h6 className="font-semibold text-gray-900">{title}</h6>
             <ul className="mt-6 space-y-4">
               {links.map(({ title, href }) => (
                 <li key={title}>
                   <Link
                     to={href}
-                    className="text-muted-foreground hover:text-foreground"
+                    className="text-gray-600 hover:text-purple-600 transition-colors duration-200"
                   >
                     {title}
                   </Link>
@@ -80,24 +80,24 @@ const Footer = () => {
           </div>
         ))}
       </div>
-      <Separator />
+      <Separator className="border-gray-200" />
       <div className="max-w-(--breakpoint-xl) mx-auto py-8 flex flex-col-reverse sm:flex-row items-center justify-between gap-x-2 gap-y-5 px-6">
         {/* Copyright */}
-        <span className="text-muted-foreground text-center xs:text-start">
+        <span className="text-gray-500 text-center xs:text-start">
           &copy; {new Date().getFullYear()} Salonique - Platformă de management programări. Toate drepturile rezervate.
         </span>
 
-        <div className="flex items-center gap-5 text-muted-foreground">
-          <Link to="#" target="_blank">
+        <div className="flex items-center gap-5 text-gray-500">
+          <Link to="#" target="_blank" className="hover:text-purple-600 transition-colors duration-200">
             <TwitterIcon className="h-5 w-5" />
           </Link>
-          <Link to="#" target="_blank">
+          <Link to="#" target="_blank" className="hover:text-purple-600 transition-colors duration-200">
             <DribbbleIcon className="h-5 w-5" />
           </Link>
-          <Link to="#" target="_blank">
+          <Link to="#" target="_blank" className="hover:text-purple-600 transition-colors duration-200">
             <TwitchIcon className="h-5 w-5" />
           </Link>
-          <Link to="#" target="_blank">
+          <Link to="#" target="_blank" className="hover:text-purple-600 transition-colors duration-200">
             <GithubIcon className="h-5 w-5" />
           </Link>
         </div>
