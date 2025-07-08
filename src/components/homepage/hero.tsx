@@ -124,7 +124,7 @@ const Hero = () => {
                   <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
                   <div className="w-3 h-3 bg-green-500 rounded-full"></div>
                 </div>
-                <div className="text-sm text-gray-500">AppointmentPro</div>
+                <div className="text-sm text-gray-500 hidden">Dashboard</div>
               </div>
 
               <div className="space-y-3">
