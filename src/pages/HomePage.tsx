@@ -43,9 +43,11 @@ export default function Home() {
           <LazyFAQ />
         </Suspense>
 
-        <Suspense fallback={<div className="h-96"></div>}>
-          <LazyTestimonial />
-        </Suspense>
+        <div className="lg:hidden">
+          <Suspense fallback={<div className="h-96"></div>}>
+            <LazyTestimonial />
+          </Suspense>
+        </div>
 
         <Suspense fallback={<div className="h-96"></div>}>
           <LazyPricing />

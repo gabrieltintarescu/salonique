@@ -106,74 +106,76 @@ const Stats = () => {
                 </motion.div>
 
                 {/* Testimonials Section */}
-                <motion.div
-                    className="text-center mb-12"
-                    variants={fadeIn}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true }}
-                >
-                    <h3 className="text-2xl xs:text-3xl font-bold text-gray-900 mb-4">
-                        Ce spun clienții noștri
-                    </h3>
-                    <p className="text-lg text-gray-600">
-                        Experiențele reale ale profesioniștilor care ne folosesc platforma
-                    </p>
-                </motion.div>
+                <div className="hidden lg:block">
+                    <motion.div
+                        className="text-center mb-12"
+                        variants={fadeIn}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                    >
+                        <h3 className="text-2xl xs:text-3xl font-bold text-gray-900 mb-4">
+                            Ce spun clienții noștri
+                        </h3>
+                        <p className="text-lg text-gray-600">
+                            Experiențele reale ale profesioniștilor care ne folosesc platforma
+                        </p>
+                    </motion.div>
 
-                <motion.div
-                    className="grid md:grid-cols-3 gap-8"
-                    variants={staggerContainer}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true }}
-                >
-                    {testimonials.map((testimonial, index) => (
-                        <motion.div
-                            key={testimonial.name}
-                            variants={staggerItem}
-                            custom={index}
-                        >
+                    <motion.div
+                        className="grid md:grid-cols-3 gap-8"
+                        variants={staggerContainer}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                    >
+                        {testimonials.map((testimonial, index) => (
                             <motion.div
-                                className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 h-full"
-                                whileHover={hoverLift}
-                                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                                key={testimonial.name}
+                                variants={staggerItem}
+                                custom={index}
                             >
-                                <div className="flex items-center gap-3 mb-4">
-                                    <img
-                                        src={testimonial.avatar}
-                                        alt={testimonial.name}
-                                        className="w-12 h-12 rounded-full object-cover"
-                                    />
-                                    <div>
-                                        <div className="font-medium text-gray-900">{testimonial.name}</div>
-                                        <div className="text-sm text-gray-500">{testimonial.role}</div>
+                                <motion.div
+                                    className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 h-full"
+                                    whileHover={hoverLift}
+                                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                                >
+                                    <div className="flex items-center gap-3 mb-4">
+                                        <img
+                                            src={testimonial.avatar}
+                                            alt={testimonial.name}
+                                            className="w-12 h-12 rounded-full object-cover"
+                                        />
+                                        <div>
+                                            <div className="font-medium text-gray-900">{testimonial.name}</div>
+                                            <div className="text-sm text-gray-500">{testimonial.role}</div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="flex items-center gap-1 mb-4">
-                                    {[...Array(5)].map((_, i) => (
-                                        <Star key={i} className="w-4 h-4 text-gray-400 fill-current" />
-                                    ))}
-                                </div>
-                                <p className="text-gray-700 leading-relaxed">{testimonial.content}</p>
+                                    <div className="flex items-center gap-1 mb-4">
+                                        {[...Array(5)].map((_, i) => (
+                                            <Star key={i} className="w-4 h-4 text-gray-400 fill-current" />
+                                        ))}
+                                    </div>
+                                    <p className="text-gray-700 leading-relaxed">{testimonial.content}</p>
+                                </motion.div>
                             </motion.div>
-                        </motion.div>
-                    ))}
-                </motion.div>
+                        ))}
+                    </motion.div>
 
-                {/* Call to Action */}
-                <motion.div
-                    className="text-center mt-16"
-                    variants={fadeIn}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true }}
-                >
-                    <div className="inline-flex items-center gap-2 btn-gradient px-6 py-3 rounded-full font-medium shadow-purple transition-shadow cursor-pointer">
-                        Începe gratuit astăzi
-                        <ArrowUpRight className="w-4 h-4" />
-                    </div>
-                </motion.div>
+                    {/* Call to Action */}
+                    <motion.div
+                        className="text-center mt-16"
+                        variants={fadeIn}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                    >
+                        <div className="inline-flex items-center gap-2 btn-gradient px-6 py-3 rounded-full font-medium shadow-purple transition-shadow cursor-pointer">
+                            Începe gratuit astăzi
+                            <ArrowUpRight className="w-4 h-4" />
+                        </div>
+                    </motion.div>
+                </div>
             </div>
         </div>
     );
