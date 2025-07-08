@@ -4,6 +4,7 @@ import { fadeIn, staggerContainer, staggerItem } from "@/components/animations/P
 import Footer from '@/components/homepage/footer';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/homepage/ui/avatar';
 import { Badge } from '@/components/homepage/ui/badge';
+import { Button } from '@/components/homepage/ui/button';
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '@/components/homepage/ui/sheet';
 import {
     AlertDialog,
@@ -15,12 +16,11 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
-import { Button } from '@/components/ui/Button';
-import { Card, CardContent } from '@/components/ui/card';
+
 import { supabase } from '@/lib/supabase';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import { motion } from "framer-motion";
-import { Calendar, CalendarX, Clock, Home, LockKeyhole, Mail, Menu, Phone, Trash2, User } from 'lucide-react';
+import { Calendar, CalendarX, Clock, Home, LockKeyhole, Menu, Trash2, User } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
@@ -41,6 +41,8 @@ interface Appointment {
         profile_image_url?: string;
     };
 }
+
+
 
 interface ClientInfo {
     id: string;
@@ -274,17 +276,17 @@ export default function MyAppointments() {
     const AppointmentsNavigation = () => (
         <>
             {/* Desktop Navigation */}
-            <div className="hidden md:block bg-background/80 backdrop-blur-sm border-b border-accent sticky top-0 z-40">
-                <div className="max-w-4xl mx-auto px-6 py-4">
+            <div className="hidden md:block bg-white/90 backdrop-blur-lg border-b border-gray-100/50 sticky top-0 z-50 shadow-sm">
+                <div className="max-w-7xl mx-auto px-6 py-4">
                     <nav className="flex items-center justify-between">
                         {/* Left: Logo/Title */}
-                        <h2 className="text-lg font-semibold text-foreground">Salonique</h2>
+                        <h2 className="text-xl font-bold text-gradient">Salonique</h2>
                         {/* Right: Links */}
                         <div className="flex items-center space-x-6">
                             <Button
                                 variant={'ghost'}
                                 onClick={() => navigate(AppRoutes.ROOT)}
-                                className="flex items-center space-x-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+                                className="flex items-center space-x-2 text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors cursor-pointer rounded-full px-4 py-2"
                             >
                                 <Home className="w-4 h-4" />
                                 <span>Acasă</span>
@@ -292,10 +294,10 @@ export default function MyAppointments() {
                             <Button
                                 onClick={handleLogout}
                                 variant={'ghost'}
-                                className="flex items-center space-x-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+                                className="flex items-center space-x-2 text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors cursor-pointer rounded-full px-4 py-2"
                             >
                                 <LockKeyhole className="w-4 h-4" />
-                                <span>Deconectează-te</span>
+                                <span>Ieșire</span>
                             </Button>
                         </div>
                     </nav>
@@ -303,42 +305,43 @@ export default function MyAppointments() {
             </div>
 
             {/* Mobile Navigation */}
-            <div className="md:hidden bg-background border-b border-accent sticky top-0 z-40">
+            <div className="md:hidden bg-white/90 backdrop-blur-lg border-b border-gray-100/50 sticky top-0 z-50 shadow-sm">
                 <div className="px-4 py-3">
                     <div className="flex items-center justify-between">
-                        <h2 className="text-lg font-semibold text-foreground">Salonique</h2>
+                        <h2 className="text-lg font-bold text-gradient">Salonique</h2>
                         <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
                             <VisuallyHidden>
-                                <SheetTitle>Menu navigare</SheetTitle>
+                                <SheetTitle>Menu</SheetTitle>
                             </VisuallyHidden>
                             <SheetTrigger asChild>
-                                <Button variant="outline" size="sm" className="p-2">
+                                <Button variant="ghost" size="sm" className="rounded-full">
                                     <Menu className="w-5 h-5" />
                                 </Button>
                             </SheetTrigger>
-                            <SheetContent side="right" className="w-80 p-0 bg-background">
+                            <SheetContent side="right" className="w-80 p-0 bg-white">
                                 <div className="flex flex-col h-full">
                                     {/* Header with user info */}
-                                    <div className="bg-background border-b border-accent px-6 py-6">
+                                    <div className="bg-gradient-purple-soft border-b border-purple-100 px-6 py-6">
                                         <div className="flex items-center space-x-4">
-                                            <Avatar className="w-12 h-12 ring-2 ring-accent">
+                                            <Avatar className="w-12 h-12 ring-2 ring-purple-200 shadow-soft">
                                                 <AvatarImage
                                                     src={clientInfo?.profilePicture || ""}
                                                     alt={clientInfo?.name || "User"}
+                                                    className="object-cover"
                                                 />
-                                                <AvatarFallback className="bg-muted text-muted-foreground text-sm font-semibold">
+                                                <AvatarFallback className="bg-purple-100 text-purple-700 text-sm font-semibold">
                                                     {clientInfo?.name?.charAt(0)?.toUpperCase() || <User className="w-5 h-5" />}
                                                 </AvatarFallback>
                                             </Avatar>
                                             <div className="flex-1 min-w-0">
-                                                <h3 className="text-base font-semibold text-foreground truncate">
+                                                <h3 className="text-base font-semibold text-purple-900 truncate">
                                                     {clientInfo?.name || 'Utilizator'}
                                                 </h3>
-                                                <p className="text-muted-foreground text-sm truncate">
+                                                <p className="text-purple-700 text-sm truncate">
                                                     {clientInfo?.email || 'Email nespecificat'}
                                                 </p>
                                                 {clientInfo?.phone && (
-                                                    <p className="text-muted-foreground text-xs truncate mt-0.5">
+                                                    <p className="text-purple-600 text-xs truncate mt-0.5">
                                                         {clientInfo.phone}
                                                     </p>
                                                 )}
@@ -346,92 +349,64 @@ export default function MyAppointments() {
                                         </div>
                                     </div>
 
-                                    {/* Navigation Menu */}
                                     <div className="flex-1 px-6 py-6">
-                                        <nav className="space-y-1">
-                                            {/* Home */}
+                                        <div className="space-y-4">
                                             <Button
                                                 variant="ghost"
                                                 onClick={() => {
                                                     navigate(AppRoutes.ROOT);
                                                     setIsMenuOpen(false);
                                                 }}
-                                                className="w-full justify-start h-10 px-3 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent transition-all duration-200"
+                                                className="w-full justify-start rounded-xl text-gray-700 hover:text-gray-900 hover:bg-gray-100"
                                             >
-                                                <Home className="w-4 h-4 mr-3" />
-                                                <span>Pagina principală</span>
+                                                <Home className="w-5 h-5 mr-3" />
+                                                Acasă
                                             </Button>
 
-                                            {/* My Appointments (current page) */}
-                                            <Button
-                                                variant="ghost"
-                                                className="w-full justify-start h-10 px-3 text-sm font-medium bg-accent text-foreground"
-                                                disabled
-                                            >
-                                                <Calendar className="w-4 h-4 mr-3" />
-                                                <span>Programările mele</span>
-                                            </Button>
-                                        </nav>
+                                            {/* Current page indicator */}
+                                            <div className="w-full justify-start rounded-xl bg-purple-100 text-purple-800 px-3 py-2 text-sm font-medium">
+                                                <Calendar className="w-5 h-5 mr-3 inline" />
+                                                Programările mele
+                                            </div>
+                                        </div>
 
                                         {/* Quick Stats */}
-                                        <div className="mt-8 pt-6 border-t border-accent">
-                                            <h4 className="text-sm font-semibold text-foreground mb-4">Statistici rapide</h4>
+                                        <div className="mt-8 pt-6 border-t border-gray-200">
+                                            <h4 className="text-sm font-semibold text-gray-900 mb-4">Statistici rapide</h4>
                                             <div className="space-y-3">
                                                 <div className="flex items-center justify-between">
-                                                    <div className="flex items-center space-x-2 text-sm text-muted-foreground">
+                                                    <div className="flex items-center space-x-2 text-sm text-gray-600">
                                                         <Calendar className="w-4 h-4" />
                                                         <span>Programări viitoare</span>
                                                     </div>
-                                                    <span className="text-sm font-medium text-foreground">
+                                                    <span className="text-sm font-medium text-gray-900 bg-purple-100 px-2 py-1 rounded-full">
                                                         {appointments.filter(apt => !isPastAppointment(apt.start_time)).length}
                                                     </span>
                                                 </div>
                                                 <div className="flex items-center justify-between">
-                                                    <div className="flex items-center space-x-2 text-sm text-muted-foreground">
+                                                    <div className="flex items-center space-x-2 text-sm text-gray-600">
                                                         <Clock className="w-4 h-4" />
                                                         <span>Programări finalizate</span>
                                                     </div>
-                                                    <span className="text-sm font-medium text-foreground">
+                                                    <span className="text-sm font-medium text-gray-900 bg-gray-100 px-2 py-1 rounded-full">
                                                         {appointments.filter(apt => isPastAppointment(apt.start_time)).length}
                                                     </span>
                                                 </div>
                                             </div>
                                         </div>
-
-                                        {/* Contact Info */}
-                                        {(clientInfo?.email || clientInfo?.phone) && (
-                                            <div className="mt-8 pt-6 border-t border-accent">
-                                                <h4 className="text-sm font-semibold text-foreground mb-4">Informații contact</h4>
-                                                <div className="space-y-3">
-                                                    {clientInfo?.email && (
-                                                        <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-                                                            <Mail className="w-4 h-4" />
-                                                            <span className="truncate">{clientInfo.email}</span>
-                                                        </div>
-                                                    )}
-                                                    {clientInfo?.phone && (
-                                                        <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-                                                            <Phone className="w-4 h-4" />
-                                                            <span>{clientInfo.phone}</span>
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            </div>
-                                        )}
                                     </div>
 
-                                    {/* Footer */}
-                                    <div className="px-6 py-4 border-t border-accent bg-muted/30">
+                                    <div className="px-6 py-4 border-t border-gray-100 bg-gray-50/50">
                                         <Button
                                             onClick={() => {
                                                 handleLogout();
                                                 setIsMenuOpen(false);
                                             }}
                                             variant="ghost"
-                                            className="w-full justify-start h-10 px-3 text-sm font-medium text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-all duration-200"
+                                            className="w-full justify-start text-red-600 hover:text-red-700 hover:bg-red-50 rounded-xl"
                                         >
-                                            <LockKeyhole className="w-4 h-4 mr-3" />
-                                            <span>Deconectează-te</span>
+                                            <LockKeyhole className="w-5 h-5 mr-3" />
+                                            Ieșire
                                         </Button>
                                     </div>
                                 </div>
@@ -449,16 +424,22 @@ export default function MyAppointments() {
 
     if (error) {
         return (
-            <div className="min-h-screen bg-background">
-                <div className="max-w-4xl mx-auto px-6 py-12">
-                    <Card className="border-destructive/20 bg-destructive/5">
-                        <CardContent className="p-8 text-center">
-                            <p className="text-destructive mb-6">{error}</p>
-                            <Button onClick={fetchAppointments} variant="outline" className="rounded-full">
-                                Încearcă din nou
-                            </Button>
-                        </CardContent>
-                    </Card>
+            <div className="min-h-screen w-full gradient-bg relative overflow-hidden flex items-center justify-center">
+                <AppointmentsNavigation />
+                <div className="max-w-2xl mx-auto px-6 py-12">
+                    <div className="floating-card rounded-3xl p-12 text-center">
+                        <div className="w-16 h-16 mx-auto bg-red-100 rounded-full flex items-center justify-center mb-6">
+                            <CalendarX className="w-8 h-8 text-red-500" />
+                        </div>
+                        <h3 className="text-xl font-bold text-gray-900 mb-4">A apărut o eroare</h3>
+                        <p className="text-red-600 mb-8 leading-relaxed">{error}</p>
+                        <Button
+                            onClick={fetchAppointments}
+                            className="btn-gradient rounded-full px-8 py-3"
+                        >
+                            Încearcă din nou
+                        </Button>
+                    </div>
                 </div>
             </div>
         );
@@ -466,62 +447,108 @@ export default function MyAppointments() {
 
     return (
         <motion.div
-            className="bg-background"
+            className="min-h-screen w-full gradient-bg relative overflow-hidden"
             variants={fadeIn}
             initial="hidden"
             animate="visible"
         >
+            {/* Floating decorative elements */}
+            <motion.div
+                className="absolute top-16 left-8 w-16 h-16 bg-white/95 rounded-full shadow-soft flex items-center justify-center hidden md:flex backdrop-blur-sm"
+                animate={{ y: [0, -10, 0] }}
+                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+            >
+                <Calendar className="w-8 h-8 text-purple-500" />
+            </motion.div>
+
+            <motion.div
+                className="absolute top-24 right-16 w-20 h-20 bg-white/95 rounded-full shadow-soft flex items-center justify-center hidden md:flex backdrop-blur-sm"
+                animate={{ y: [0, 10, 0] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+            >
+                <Clock className="w-10 h-10 text-gray-600" />
+            </motion.div>
+
+            <motion.div
+                className="absolute bottom-32 left-20 w-12 h-12 bg-white/95 rounded-full shadow-soft flex items-center justify-center hidden lg:flex backdrop-blur-sm"
+                animate={{ y: [0, -8, 0] }}
+                transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+            >
+                <User className="w-6 h-6 text-purple-500" />
+            </motion.div>
+
             <AppointmentsNavigation />
             <motion.div
-                className="min-h-[100vh] max-w-4xl mx-auto px-6 py-8 space-y-8"
+                className="max-w-7xl mx-auto px-6 py-16 space-y-12 relative z-10"
                 variants={staggerContainer}
                 initial="hidden"
                 animate="visible"
             >
-                {/* Header */}
+                {/* Hero Header */}
                 <motion.div
-                    className="flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+                    className="text-center max-w-3xl mx-auto"
                     variants={staggerItem}
                 >
-                    <div>
-                        <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">Programările mele</h1>
-                        <p className="text-muted-foreground mt-2">Gestionează programările tale viitoare și din trecut</p>
-                    </div>
+                    <motion.h1
+                        className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight tracking-tight text-gray-900 mb-6"
+                        variants={fadeIn}
+                        transition={{ delay: 0.2 }}
+                    >
+                        Programările{" "}
+                        <span className="text-gradient">tale</span>
+                    </motion.h1>
+                    <motion.p
+                        className="text-lg lg:text-xl text-gray-700 leading-relaxed"
+                        variants={fadeIn}
+                        transition={{ delay: 0.4 }}
+                    >
+                        Gestionează și monitorizează toate programările tale într-un singur loc
+                    </motion.p>
                 </motion.div>
 
                 {/* Empty State */}
                 {appointments.length === 0 && (
-                    <motion.div variants={staggerItem}>
-                        <Card className="border-dashed border-2 border-muted-foreground/20">
-                            <CardContent className="flex flex-col items-center justify-center py-16 text-center">
-                                <motion.div
-                                    initial={{ scale: 0, opacity: 0 }}
-                                    animate={{ scale: 1, opacity: 1 }}
-                                    transition={{ delay: 0.5, duration: 0.6, ease: "easeOut" }}
-                                >
-                                    <CalendarX className="w-16 h-16 text-muted-foreground/50 mb-6" />
-                                </motion.div>
-                                <h3 className="text-xl font-semibold mb-2">Încă nu ai programări</h3>
-                                <p className="text-muted-foreground mb-8 max-w-md">
-                                    Încă nu ai rezervat nicio programare. Începe prin a-ți rezerva prima programare cu unul dintre profesioniștii noștri.
-                                </p>
-                            </CardContent>
-                        </Card>
+                    <motion.div
+                        variants={staggerItem}
+                        className="max-w-2xl mx-auto"
+                    >
+                        <div className="floating-card rounded-3xl p-12 text-center">
+                            <motion.div
+                                initial={{ scale: 0, opacity: 0 }}
+                                animate={{ scale: 1, opacity: 1 }}
+                                transition={{ delay: 0.5, duration: 0.6, ease: "easeOut" }}
+                                className="mb-8"
+                            >
+                                <div className="w-24 h-24 mx-auto bg-gradient-purple-soft rounded-full flex items-center justify-center mb-6">
+                                    <CalendarX className="w-12 h-12 text-purple-500" />
+                                </div>
+                            </motion.div>
+                            <h3 className="text-2xl font-bold text-gray-900 mb-4">Încă nu ai programări</h3>
+                            <p className="text-gray-600 mb-8 text-lg">
+                                Începe prin a-ți rezerva prima programare cu unul dintre profesioniștii noștri.
+                            </p>
+                        </div>
                     </motion.div>
                 )}
 
                 {/* Upcoming Appointments */}
                 {upcomingAppointments.length > 0 && (
                     <motion.div
-                        className="space-y-6"
+                        className="space-y-8"
                         variants={staggerItem}
                     >
-                        <h2 className="text-2xl font-semibold tracking-tight flex items-center">
-                            <Calendar className="w-6 h-6 mr-3" />
-                            Programări viitoare ({upcomingAppointments.length})
-                        </h2>
+                        <div className="text-center">
+                            <h2 className="text-3xl font-bold text-gray-900 mb-4 flex items-center justify-center">
+                                <Calendar className="w-8 h-8 mr-3 text-purple-500" />
+                                Programări viitoare
+                            </h2>
+                            <div className="w-24 h-1 bg-gradient-purple mx-auto rounded-full mb-2"></div>
+                            <p className="text-gray-600">
+                                {upcomingAppointments.length} {upcomingAppointments.length === 1 ? 'programare' : 'programări'} viitoare
+                            </p>
+                        </div>
                         <motion.div
-                            className="grid gap-4"
+                            className="grid gap-6 max-w-4xl mx-auto"
                             variants={staggerContainer}
                             initial="hidden"
                             animate="visible"
@@ -533,70 +560,83 @@ export default function MyAppointments() {
                                     custom={index}
                                     className="group"
                                 >
-                                    <Card className="relative overflow-hidden border border-gray-100/60 bg-white/80 backdrop-blur-sm shadow-md hover:shadow-lg hover:border-gray-200/80 transition-all duration-300 rounded-lg">
-                                        <CardContent className="p-6">
-                                            {/* Status badge */}
-                                            <Badge
-                                                variant={getStatusVariant(appointment.status)}
-                                                className="absolute top-4 right-4 px-3 py-1 text-xs font-medium flex items-center gap-1.5 shadow-sm"
-                                            >
-                                                {getStatusIcon(appointment.status)}
-                                                <span>{getStatusText(appointment.status)}</span>
-                                            </Badge>
+                                    <div className="floating-card rounded-2xl p-4 sm:p-6 hover:shadow-purple transition-all duration-300 relative overflow-hidden">
+                                        {/* Status badge */}
+                                        <Badge
+                                            variant={getStatusVariant(appointment.status)}
+                                            className="absolute top-4 right-4 sm:top-6 sm:right-6 px-3 py-1 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium flex items-center gap-1.5 sm:gap-2 shadow-soft rounded-full"
+                                        >
+                                            {getStatusIcon(appointment.status)}
+                                            <span>{getStatusText(appointment.status)}</span>
+                                        </Badge>
 
-                                            {/* Main content */}
-                                            <div className="flex items-start space-x-4 pr-20">
-                                                <Avatar className="w-14 h-14 ring-2 ring-white shadow-sm">
+                                        {/* Main content */}
+                                        <div className="flex items-start space-x-3 sm:space-x-6 pr-16 sm:pr-24">
+                                            <div className="relative flex-shrink-0">
+                                                <Avatar className="w-12 h-12 sm:w-16 sm:h-16 ring-2 sm:ring-4 ring-white shadow-soft">
                                                     <AvatarImage
                                                         src={appointment.professional.profile_image_url}
                                                         alt={appointment.professional.name}
                                                         className="object-cover"
                                                     />
-                                                    <AvatarFallback className="bg-gradient-to-br from-blue-50 to-indigo-100 text-indigo-700 font-semibold">
-                                                        {appointment.professional.name?.charAt(0)?.toUpperCase() || <User className="w-5 h-5" />}
+                                                    <AvatarFallback className="bg-gradient-purple-soft text-purple-700 font-bold text-sm sm:text-lg">
+                                                        {appointment.professional.name?.charAt(0)?.toUpperCase() || <User className="w-4 h-4 sm:w-6 sm:h-6" />}
                                                     </AvatarFallback>
                                                 </Avatar>
-
-                                                <div className="flex-1 min-w-0 space-y-3">
-                                                    {/* Professional name */}
-                                                    <h3 className="text-lg font-semibold text-gray-900 truncate">
-                                                        {appointment.professional.name}
-                                                    </h3>
-
-                                                    {/* Date and time info */}
-                                                    <div className="space-y-2">
-                                                        <div className="flex items-center gap-2 text-sm text-gray-600">
-                                                            <Calendar className="w-4 h-4 text-gray-400" />
-                                                            <span className="font-medium">{formatDate(appointment.start_time)}</span>
-                                                        </div>
-                                                        <div className="flex items-center gap-2 text-sm text-gray-600">
-                                                            <Clock className="w-4 h-4 text-gray-400" />
-                                                            <span>{formatTime(appointment.start_time)} - {formatTime(appointment.end_time)}</span>
-                                                        </div>
-                                                    </div>
-
-                                                    {/* Notes */}
-                                                    {(appointment.notes || appointment.public_notes) && (
-                                                        <div className="bg-gray-50/80 rounded-lg p-3 border border-gray-100">
-                                                            <p className="text-sm text-gray-600 line-clamp-2">
-                                                                {appointment.public_notes || appointment.notes}
-                                                            </p>
-                                                        </div>
-                                                    )}
+                                                <div className="absolute -bottom-0.5 -right-0.5 sm:-bottom-1 sm:-right-1 w-4 h-4 sm:w-6 sm:h-6 bg-green-500 rounded-full border-2 border-white flex items-center justify-center">
+                                                    <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-white rounded-full"></div>
                                                 </div>
                                             </div>
 
-                                            {/* Delete button */}
-                                            <Button
-                                                variant="ghost"
-                                                size="sm"
-                                                onClick={() => handleDeleteAppointment(appointment)}
-                                                className="absolute bottom-4 right-4 p-3 h-auto text-gray-500 hover:text-red-500 hover:bg-red-50 rounded-full transition-all duration-200 shadow-sm"
-                                            >
-                                                <Trash2 className="w-5 h-5" />
-                                            </Button>
-                                        </CardContent>
-                                    </Card>
+                                            <div className="flex-1 min-w-0 space-y-3 sm:space-y-4">
+                                                {/* Professional name */}
+                                                <h3 className="text-lg sm:text-xl font-bold text-gray-900 leading-tight">
+                                                    {appointment.professional.name}
+                                                </h3>
+
+                                                {/* Date and time info */}
+                                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
+                                                    <div className="flex items-center gap-2 sm:gap-3 bg-gray-50/80 rounded-lg sm:rounded-xl p-2 sm:p-3">
+                                                        <div className="w-8 h-8 sm:w-10 sm:h-10 bg-purple-100 rounded-md sm:rounded-lg flex items-center justify-center flex-shrink-0">
+                                                            <Calendar className="w-4 h-4 sm:w-5 sm:h-5 text-purple-600" />
+                                                        </div>
+                                                        <div className="min-w-0 flex-1">
+                                                            <p className="text-xs sm:text-sm text-gray-500 font-medium">Data</p>
+                                                            <p className="font-semibold text-gray-900 text-sm sm:text-base leading-tight">{formatDate(appointment.start_time)}</p>
+                                                        </div>
+                                                    </div>
+                                                    <div className="flex items-center gap-2 sm:gap-3 bg-gray-50/80 rounded-lg sm:rounded-xl p-2 sm:p-3">
+                                                        <div className="w-8 h-8 sm:w-10 sm:h-10 bg-blue-100 rounded-md sm:rounded-lg flex items-center justify-center flex-shrink-0">
+                                                            <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" />
+                                                        </div>
+                                                        <div className="min-w-0 flex-1">
+                                                            <p className="text-xs sm:text-sm text-gray-500 font-medium">Ora</p>
+                                                            <p className="font-semibold text-gray-900 text-sm sm:text-base leading-tight">{formatTime(appointment.start_time)} - {formatTime(appointment.end_time)}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                {/* Notes */}
+                                                {(appointment.notes || appointment.public_notes) && (
+                                                    <div className="bg-gradient-purple-soft rounded-xl p-4 border border-purple-100">
+                                                        <p className="text-purple-800 leading-relaxed">
+                                                            {appointment.public_notes || appointment.notes}
+                                                        </p>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+
+                                        {/* Delete button */}
+                                        <Button
+                                            variant="ghost"
+                                            size="sm"
+                                            onClick={() => handleDeleteAppointment(appointment)}
+                                            className="absolute bottom-4 right-4 sm:bottom-6 sm:right-6 p-2 sm:p-3 h-auto text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-full transition-all duration-200 shadow-soft"
+                                        >
+                                            <Trash2 className="w-4 h-4 sm:w-5 sm:h-5" />
+                                        </Button>
+                                    </div>
                                 </motion.div>
                             ))}
                         </motion.div>
@@ -606,15 +646,21 @@ export default function MyAppointments() {
                 {/* Past Appointments */}
                 {pastAppointments.length > 0 && (
                     <motion.div
-                        className="space-y-6"
+                        className="space-y-8"
                         variants={staggerItem}
                     >
-                        <h2 className="text-2xl font-semibold tracking-tight flex items-center">
-                            <Clock className="w-6 h-6 mr-3" />
-                            Programări din trecut ({pastAppointments.length})
-                        </h2>
+                        <div className="text-center">
+                            <h2 className="text-3xl font-bold text-gray-900 mb-4 flex items-center justify-center">
+                                <Clock className="w-8 h-8 mr-3 text-gray-500" />
+                                Istoric programări
+                            </h2>
+                            <div className="w-24 h-1 bg-gradient-neutral mx-auto rounded-full mb-2"></div>
+                            <p className="text-gray-600">
+                                {pastAppointments.length} {pastAppointments.length === 1 ? 'programare finalizată' : 'programări finalizate'}
+                            </p>
+                        </div>
                         <motion.div
-                            className="grid gap-4"
+                            className="grid gap-6 max-w-4xl mx-auto"
                             variants={staggerContainer}
                             initial="hidden"
                             animate="visible"
@@ -626,60 +672,73 @@ export default function MyAppointments() {
                                     custom={index}
                                     className="group"
                                 >
-                                    <Card className="relative overflow-hidden border border-gray-100/40 bg-gray-50/60 backdrop-blur-sm shadow-md hover:shadow-lg hover:border-gray-200/60 transition-all duration-300 rounded-lg">
-                                        <CardContent className="p-6">
-                                            {/* Status badge */}
-                                            <Badge
-                                                variant="outline"
-                                                className="absolute top-4 right-4 px-3 py-1 text-xs font-medium flex items-center gap-1.5 border-gray-300/60 bg-white/80 text-gray-600 shadow-sm"
-                                            >
-                                                {getStatusIcon('completed')}
-                                                <span>Finalizat</span>
-                                            </Badge>
+                                    <div className="stat-card rounded-2xl p-4 sm:p-6 relative overflow-hidden opacity-80 hover:opacity-100 transition-all duration-300">
+                                        {/* Status badge */}
+                                        <Badge
+                                            variant="outline"
+                                            className="absolute top-4 right-4 sm:top-6 sm:right-6 px-3 py-1 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium flex items-center gap-1.5 sm:gap-2 border-gray-300 bg-gray-50 text-gray-600 rounded-full"
+                                        >
+                                            {getStatusIcon('completed')}
+                                            <span>Finalizat</span>
+                                        </Badge>
 
-                                            {/* Main content */}
-                                            <div className="flex items-start space-x-4">
-                                                <Avatar className="w-14 h-14 ring-2 ring-white/60 shadow-sm">
+                                        {/* Main content */}
+                                        <div className="flex items-start space-x-3 sm:space-x-6">
+                                            <div className="relative flex-shrink-0">
+                                                <Avatar className="w-12 h-12 sm:w-16 sm:h-16 ring-2 sm:ring-4 ring-gray-200 shadow-soft">
                                                     <AvatarImage
                                                         src={appointment.professional.profile_image_url}
                                                         alt={appointment.professional.name}
                                                         className="object-cover opacity-90"
                                                     />
-                                                    <AvatarFallback className="bg-gradient-to-br from-gray-100 to-gray-200 text-gray-600 font-semibold">
-                                                        {appointment.professional.name?.charAt(0)?.toUpperCase() || <User className="w-5 h-5" />}
+                                                    <AvatarFallback className="bg-gray-100 text-gray-600 font-bold text-sm sm:text-lg">
+                                                        {appointment.professional.name?.charAt(0)?.toUpperCase() || <User className="w-4 h-4 sm:w-6 sm:h-6" />}
                                                     </AvatarFallback>
                                                 </Avatar>
-
-                                                <div className="flex-1 min-w-0 space-y-3">
-                                                    {/* Professional name */}
-                                                    <h3 className="text-lg font-semibold text-gray-700 truncate">
-                                                        {appointment.professional.name}
-                                                    </h3>
-
-                                                    {/* Date and time info */}
-                                                    <div className="space-y-2">
-                                                        <div className="flex items-center gap-2 text-sm text-gray-500">
-                                                            <Calendar className="w-4 h-4 text-gray-400" />
-                                                            <span className="font-medium">{formatDate(appointment.start_time)}</span>
-                                                        </div>
-                                                        <div className="flex items-center gap-2 text-sm text-gray-500">
-                                                            <Clock className="w-4 h-4 text-gray-400" />
-                                                            <span>{formatTime(appointment.start_time)} - {formatTime(appointment.end_time)}</span>
-                                                        </div>
-                                                    </div>
-
-                                                    {/* Notes */}
-                                                    {(appointment.notes || appointment.public_notes) && (
-                                                        <div className="bg-white/60 rounded-lg p-3 border border-gray-200/60">
-                                                            <p className="text-sm text-gray-500 line-clamp-2">
-                                                                {appointment.public_notes || appointment.notes}
-                                                            </p>
-                                                        </div>
-                                                    )}
+                                                <div className="absolute -bottom-0.5 -right-0.5 sm:-bottom-1 sm:-right-1 w-4 h-4 sm:w-6 sm:h-6 bg-gray-400 rounded-full border-2 border-white flex items-center justify-center">
+                                                    <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-white rounded-full"></div>
                                                 </div>
                                             </div>
-                                        </CardContent>
-                                    </Card>
+
+                                            <div className="flex-1 min-w-0 space-y-3 sm:space-y-4">
+                                                {/* Professional name */}
+                                                <h3 className="text-lg sm:text-xl font-bold text-gray-700 leading-tight">
+                                                    {appointment.professional.name}
+                                                </h3>
+
+                                                {/* Date and time info */}
+                                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
+                                                    <div className="flex items-center gap-2 sm:gap-3 bg-gray-50 rounded-lg sm:rounded-xl p-2 sm:p-3">
+                                                        <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gray-200 rounded-md sm:rounded-lg flex items-center justify-center flex-shrink-0">
+                                                            <Calendar className="w-4 h-4 sm:w-5 sm:h-5 text-gray-500" />
+                                                        </div>
+                                                        <div className="min-w-0 flex-1">
+                                                            <p className="text-xs sm:text-sm text-gray-500 font-medium">Data</p>
+                                                            <p className="font-semibold text-gray-700 text-sm sm:text-base leading-tight">{formatDate(appointment.start_time)}</p>
+                                                        </div>
+                                                    </div>
+                                                    <div className="flex items-center gap-2 sm:gap-3 bg-gray-50 rounded-lg sm:rounded-xl p-2 sm:p-3">
+                                                        <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gray-200 rounded-md sm:rounded-lg flex items-center justify-center flex-shrink-0">
+                                                            <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-gray-500" />
+                                                        </div>
+                                                        <div className="min-w-0 flex-1">
+                                                            <p className="text-xs sm:text-sm text-gray-500 font-medium">Ora</p>
+                                                            <p className="font-semibold text-gray-700 text-sm sm:text-base leading-tight">{formatTime(appointment.start_time)} - {formatTime(appointment.end_time)}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                {/* Notes */}
+                                                {(appointment.notes || appointment.public_notes) && (
+                                                    <div className="bg-gray-100 rounded-xl p-4 border border-gray-200">
+                                                        <p className="text-gray-600 leading-relaxed">
+                                                            {appointment.public_notes || appointment.notes}
+                                                        </p>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
                                 </motion.div>
                             ))}
                         </motion.div>
@@ -689,43 +748,90 @@ export default function MyAppointments() {
 
             {/* Delete Confirmation Dialog */}
             <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
-                <AlertDialogContent className="left-4 right-4 top-[50%] translate-x-0 translate-y-[-50%] w-auto max-w-md mx-auto rounded-lg">
-                    <AlertDialogHeader>
-                        <AlertDialogTitle>Șterge programarea</AlertDialogTitle>
-                        <AlertDialogDescription>
-                            {appointmentToDelete && (
-                                <div className="space-y-2">
-                                    <p>
-                                        Ești sigur că vrei să ștergi această programare?
-                                    </p>
-                                    <div className="bg-gray-50 p-3 rounded-md">
-                                        <p className="font-semibold">
-                                            👨‍💼 {appointmentToDelete.professional.name}
-                                        </p>
-                                        <p className="font-semibold">
-                                            📅 {formatDate(appointmentToDelete.start_time)}
-                                        </p>
-                                        <p className="font-semibold">
-                                            🕐 {formatTime(appointmentToDelete.start_time)} - {formatTime(appointmentToDelete.end_time)}
-                                        </p>
-                                    </div>
-                                    <p className="text-sm font-medium">
-                                        ⚠️ Această acțiune nu poate fi anulată. ⚠️
-                                    </p>
-                                </div>
-                            )}
+                <AlertDialogContent className="left-4 right-4 top-[50%] translate-x-0 translate-y-[-50%] w-auto max-w-xs mx-auto rounded-xl floating-card border-none shadow-purple">
+                    <AlertDialogHeader className="text-center pb-1">
+                        <div className="w-6 h-6 mx-auto bg-red-100 rounded-full flex items-center justify-center mb-1">
+                            <Trash2 className="w-3 h-3 text-red-500" />
+                        </div>
+                        <AlertDialogTitle className="text-base font-bold text-gray-900 mb-0.5">
+                            Șterge programarea
+                        </AlertDialogTitle>
+                        <AlertDialogDescription className="text-gray-600 text-[10px]">
+                            Această acțiune nu poate fi anulată.
                         </AlertDialogDescription>
                     </AlertDialogHeader>
-                    <AlertDialogFooter>
-                        <AlertDialogCancel onClick={handleCancelDelete} disabled={isDeleting}>
+
+                    {appointmentToDelete && (
+                        <div className="space-y-1.5 py-0.5">
+                            <div className="bg-gradient-purple-soft p-2 rounded-lg border border-purple-100">
+                                <div className="flex items-center gap-1.5">
+                                    <Avatar className="w-6 h-6 ring-1 ring-purple-200 flex-shrink-0">
+                                        <AvatarImage
+                                            src={appointmentToDelete.professional.profile_image_url}
+                                            alt={appointmentToDelete.professional.name}
+                                            className="object-cover"
+                                        />
+                                        <AvatarFallback className="bg-purple-100 text-purple-700 font-bold text-[10px]">
+                                            {appointmentToDelete.professional.name?.charAt(0)?.toUpperCase() || <User className="w-2 h-2" />}
+                                        </AvatarFallback>
+                                    </Avatar>
+                                    <div className="flex-1 min-w-0">
+                                        <div className="font-bold text-purple-900 text-xs mb-0.5">
+                                            {appointmentToDelete.professional.name}
+                                        </div>
+                                        <div className="space-y-0.5">
+                                            <div className="flex items-center gap-0.5">
+                                                <Calendar className="w-2 h-2 text-purple-600" />
+                                                <span className="font-medium text-purple-800 text-[10px]">
+                                                    {formatDate(appointmentToDelete.start_time)}
+                                                </span>
+                                            </div>
+                                            <div className="flex items-center gap-0.5">
+                                                <Clock className="w-2 h-2 text-purple-600" />
+                                                <span className="font-medium text-purple-800 text-[10px]">
+                                                    {formatTime(appointmentToDelete.start_time)} - {formatTime(appointmentToDelete.end_time)}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="bg-red-50 p-1.5 rounded border border-red-200 flex items-center gap-1">
+                                <div className="w-3 h-3 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <span className="text-red-600 text-[8px]">⚠️</span>
+                                </div>
+                                <span className="text-red-700 font-medium text-[10px]">
+                                    Acțiune permanentă
+                                </span>
+                            </div>
+                        </div>
+                    )}
+
+                    <AlertDialogFooter className="flex flex-col sm:flex-row gap-1.5 pt-1">
+                        <AlertDialogCancel
+                            onClick={handleCancelDelete}
+                            disabled={isDeleting}
+                            className="w-full sm:w-auto rounded-full px-3 py-1 border-gray-300 text-gray-700 hover:bg-gray-50 font-medium text-[10px]"
+                        >
                             Anulează
                         </AlertDialogCancel>
                         <AlertDialogAction
                             onClick={handleConfirmDelete}
                             disabled={isDeleting}
-                            className="bg-red-600 hover:bg-red-700"
+                            className="w-full sm:w-auto bg-red-600 hover:bg-red-700 rounded-full px-3 py-1 font-medium shadow-lg hover:shadow-xl transition-all duration-200 text-[10px]"
                         >
-                            {isDeleting ? 'Se șterge...' : 'Șterge programarea'}
+                            {isDeleting ? (
+                                <div className="flex items-center gap-1">
+                                    <div className="w-2 h-2 border border-white border-t-transparent rounded-full animate-spin"></div>
+                                    Se șterge...
+                                </div>
+                            ) : (
+                                <div className="flex items-center gap-1">
+                                    <Trash2 className="w-2 h-2" />
+                                    Șterge
+                                </div>
+                            )}
                         </AlertDialogAction>
                     </AlertDialogFooter>
                 </AlertDialogContent>

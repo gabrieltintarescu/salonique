@@ -282,23 +282,34 @@ export default function RequestAppointment() {
     if (!professionalId && !isNavigating) {
         // Show invalid professional ID state
         return (
-            <div className="min-h-screen bg-background">
+            <div className="min-h-screen w-full gradient-bg relative overflow-hidden">
+                {/* Floating decorative elements */}
                 <motion.div
-                    className="flex flex-col items-center justify-center min-h-screen px-6"
+                    className="absolute top-20 left-8 w-16 h-16 bg-white/95 rounded-full shadow-soft flex items-center justify-center hidden md:flex backdrop-blur-sm"
+                    animate={{ y: [0, -10, 0] }}
+                    transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                >
+                    <svg className="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                    </svg>
+                </motion.div>
+
+                <motion.div
+                    className="flex flex-col items-center justify-center min-h-screen px-6 relative z-10"
                     variants={fadeIn}
                     initial="hidden"
                     animate="visible"
                 >
                     <motion.div
-                        className="max-w-md mx-auto text-center bg-card rounded-xl border border-border p-8 shadow-sm"
+                        className="max-w-md mx-auto text-center floating-card rounded-3xl p-12 shadow-purple"
                         variants={staggerContainer}
                         initial="hidden"
                         animate="visible"
                     >
-                        <motion.div className="mb-6" variants={staggerItem}>
-                            <div className="mx-auto w-20 h-20 bg-destructive/10 rounded-full flex items-center justify-center mb-6">
+                        <motion.div className="mb-8" variants={staggerItem}>
+                            <div className="mx-auto w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mb-6">
                                 <svg
-                                    className="w-10 h-10 text-destructive"
+                                    className="w-10 h-10 text-red-500"
                                     fill="none"
                                     stroke="currentColor"
                                     viewBox="0 0 24 24"
@@ -311,17 +322,17 @@ export default function RequestAppointment() {
                                     />
                                 </svg>
                             </div>
-                            <h2 className="text-2xl font-bold text-foreground mb-3">
+                            <h2 className="text-2xl font-bold text-gray-900 mb-4">
                                 Link invalid
                             </h2>
-                            <p className="text-muted-foreground leading-relaxed">
+                            <p className="text-gray-600 leading-relaxed">
                                 Linkul pe care l-ați accesat nu este valid sau este incomplet. Vă rugăm să verificați linkul sau să alegeți un specialist din lista noastră.
                             </p>
                         </motion.div>
                         <motion.div className="space-y-3" variants={staggerItem}>
                             <motion.button
                                 onClick={navigateToMyAppointments}
-                                className="w-full bg-primary text-primary-foreground px-6 py-3 rounded-lg hover:bg-primary/90 transition-all duration-200 font-medium"
+                                className="w-full btn-gradient rounded-full px-8 py-3 font-medium shadow-purple"
                                 whileHover={{ scale: 1.02 }}
                                 whileTap={{ scale: 0.98 }}
                             >
@@ -329,7 +340,7 @@ export default function RequestAppointment() {
                             </motion.button>
                             <motion.button
                                 onClick={() => navigate(-1)}
-                                className="w-full bg-secondary text-secondary-foreground px-6 py-3 rounded-lg hover:bg-secondary/80 transition-all duration-200 font-medium"
+                                className="w-full bg-gray-100 text-gray-700 rounded-full px-8 py-3 hover:bg-gray-200 transition-all duration-200 font-medium"
                                 whileHover={{ scale: 1.02 }}
                                 whileTap={{ scale: 0.98 }}
                             >
@@ -345,7 +356,7 @@ export default function RequestAppointment() {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-background">
+            <div className="min-h-screen w-full gradient-bg relative overflow-hidden">
                 <PageLoader message="Se încarcă intervalele de timp disponibile..." />
                 <Footer />
             </div>
@@ -355,23 +366,34 @@ export default function RequestAppointment() {
     // Show professional not found state
     if (professionalExists === false) {
         return (
-            <div className="min-h-screen bg-background">
+            <div className="min-h-screen w-full gradient-bg relative overflow-hidden">
+                {/* Floating decorative elements */}
                 <motion.div
-                    className="flex flex-col items-center justify-center min-h-screen px-6"
+                    className="absolute top-24 right-16 w-20 h-20 bg-white/95 rounded-full shadow-soft flex items-center justify-center hidden md:flex backdrop-blur-sm"
+                    animate={{ y: [0, 10, 0] }}
+                    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+                >
+                    <svg className="w-10 h-10 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                </motion.div>
+
+                <motion.div
+                    className="flex flex-col items-center justify-center min-h-screen px-6 relative z-10"
                     variants={fadeIn}
                     initial="hidden"
                     animate="visible"
                 >
                     <motion.div
-                        className="max-w-md mx-auto text-center bg-card rounded-xl border border-border p-8 shadow-sm"
+                        className="max-w-md mx-auto text-center floating-card rounded-3xl p-12 shadow-purple"
                         variants={staggerContainer}
                         initial="hidden"
                         animate="visible"
                     >
-                        <motion.div className="mb-6" variants={staggerItem}>
-                            <div className="mx-auto w-20 h-20 bg-muted rounded-full flex items-center justify-center mb-6">
+                        <motion.div className="mb-8" variants={staggerItem}>
+                            <div className="mx-auto w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mb-6">
                                 <svg
-                                    className="w-10 h-10 text-muted-foreground"
+                                    className="w-10 h-10 text-gray-500"
                                     fill="none"
                                     stroke="currentColor"
                                     viewBox="0 0 24 24"
@@ -384,17 +406,17 @@ export default function RequestAppointment() {
                                     />
                                 </svg>
                             </div>
-                            <h2 className="text-2xl font-bold text-foreground mb-3">
+                            <h2 className="text-2xl font-bold text-gray-900 mb-4">
                                 Specialist negăsit
                             </h2>
-                            <p className="text-muted-foreground leading-relaxed">
+                            <p className="text-gray-600 leading-relaxed">
                                 Ne pare rău, dar specialistul pe care îl căutați nu a fost găsit sau nu mai este disponibil pentru programări.
                             </p>
                         </motion.div>
                         <motion.div className="space-y-3" variants={staggerItem}>
                             <motion.button
                                 onClick={navigateToMyAppointments}
-                                className="w-full bg-primary text-primary-foreground px-6 py-3 rounded-lg hover:bg-primary/90 transition-all duration-200 font-medium"
+                                className="w-full btn-gradient rounded-full px-8 py-3 font-medium shadow-purple"
                                 whileHover={{ scale: 1.02 }}
                                 whileTap={{ scale: 0.98 }}
                             >
@@ -402,7 +424,7 @@ export default function RequestAppointment() {
                             </motion.button>
                             <motion.button
                                 onClick={() => navigate(-1)}
-                                className="w-full bg-secondary text-secondary-foreground px-6 py-3 rounded-lg hover:bg-secondary/80 transition-all duration-200 font-medium"
+                                className="w-full bg-gray-100 text-gray-700 rounded-full px-8 py-3 hover:bg-gray-200 transition-all duration-200 font-medium"
                                 whileHover={{ scale: 1.02 }}
                                 whileTap={{ scale: 0.98 }}
                             >
@@ -417,197 +439,180 @@ export default function RequestAppointment() {
     }
 
     return (
-        <div className="min-h-screen bg-background">
-            {/* Header Section */}
+        <motion.div
+            className="min-h-screen w-full gradient-bg relative overflow-hidden"
+            variants={fadeIn}
+            initial="hidden"
+            animate="visible"
+        >
+            {/* Floating decorative elements */}
             <motion.div
-                className="bg-muted/20 border-b border-border relative overflow-hidden"
-                variants={fadeIn}
-                initial="hidden"
-                animate="visible"
+                className="absolute top-16 left-8 w-16 h-16 bg-white/95 rounded-full shadow-soft flex items-center justify-center hidden md:flex backdrop-blur-sm"
+                animate={{ y: [0, -10, 0] }}
+                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
             >
-                {/* Subtle background decoration */}
-                <div className="absolute inset-0">
-                    <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl"></div>
-                    <div className="absolute bottom-0 left-0 w-72 h-72 bg-primary/3 rounded-full blur-3xl"></div>
-                </div>
-
-                <div className="relative max-w-(--breakpoint-xl) mx-auto px-6 py-16">
-                    <motion.div
-                        className="flex items-center gap-4 mb-8"
-                        variants={staggerContainer}
-                        initial="hidden"
-                        animate="visible"
-                    >
-                        <motion.button
-                            onClick={navigateToMyAppointments}
-                            className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
-                            variants={staggerItem}
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
-                        >
-                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
-                            </svg>
-                            Înapoi
-                        </motion.button>
-                    </motion.div>
-
-                    <motion.div
-                        className="text-center max-w-4xl mx-auto"
-                        variants={staggerContainer}
-                        initial="hidden"
-                        animate="visible"
-                    >
-                        <motion.div
-                            className="inline-flex items-center gap-2 bg-primary/10 text-primary rounded-full px-4 py-2 text-sm font-medium mb-6"
-                            variants={staggerItem}
-                        >
-                            <div className="w-2 h-2 bg-primary rounded-full"></div>
-                            Rezervare online
-                        </motion.div>
-
-                        <motion.h1
-                            className="text-3xl xs:text-4xl sm:text-5xl lg:text-[2.75rem] xl:text-5xl font-bold leading-[1.2]! tracking-tight mb-6"
-                            variants={staggerItem}
-                        >
-                            Programează-te cu{" "}
-                            {professionalName && (
-                                <span className="text-primary">
-                                    {professionalName}
-                                </span>
-                            )}
-                        </motion.h1>
-
-                        <motion.p
-                            className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto"
-                            variants={staggerItem}
-                        >
-                            Alege intervalul de timp perfect pentru tine. Programarea este simplă, rapidă și sigură.
-                        </motion.p>
-
-                        <motion.div
-                            className="flex flex-wrap justify-center gap-6 text-sm text-muted-foreground"
-                            variants={staggerItem}
-                        >
-                            <div className="flex items-center gap-2 bg-card/50 backdrop-blur-sm rounded-lg px-3 py-2">
-                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                                90 minute / sesiune
-                            </div>
-                            <div className="flex items-center gap-2 bg-card/50 backdrop-blur-sm rounded-lg px-3 py-2">
-                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                </svg>
-                                Program: 08:00 - 18:00
-                            </div>
-                            <div className="flex items-center gap-2 bg-card/50 backdrop-blur-sm rounded-lg px-3 py-2">
-                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
-                                </svg>
-                                Confirmare rapidă
-                            </div>
-                        </motion.div>
-                    </motion.div>
-                </div>
+                <svg className="w-8 h-8 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
             </motion.div>
 
-            {/* Main Content */}
-            <div>
-                {availableTimeslots.length === 0 ? (
-                    <motion.div
-                        className="flex items-center justify-center py-20"
-                        variants={staggerContainer}
-                        initial="hidden"
-                        animate="visible"
-                    >
+            <motion.div
+                className="absolute top-24 right-16 w-20 h-20 bg-white/95 rounded-full shadow-soft flex items-center justify-center hidden md:flex backdrop-blur-sm"
+                animate={{ y: [0, 10, 0] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+            >
+                <svg className="w-10 h-10 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+            </motion.div>
+
+            <motion.div
+                className="absolute bottom-32 left-20 w-12 h-12 bg-white/95 rounded-full shadow-soft flex items-center justify-center hidden lg:flex backdrop-blur-sm"
+                animate={{ y: [0, -8, 0] }}
+                transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+            >
+                <svg className="w-6 h-6 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+            </motion.div>
+
+            <div className="relative z-10">
+                {/* Header Section */}
+                <motion.div
+                    className="bg-white/90 backdrop-blur-lg border-b border-gray-100/50 sticky top-0 z-50 shadow-sm"
+                    variants={staggerContainer}
+                    initial="hidden"
+                    animate="visible"
+                >
+                    <div className="max-w-7xl mx-auto px-6 py-8">
                         <motion.div
-                            className="max-w-md mx-auto text-center bg-card rounded-xl border border-border p-8"
+                            className="flex items-center gap-4 mb-8"
                             variants={staggerItem}
                         >
-                            <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-6">
-                                <svg
-                                    className="w-8 h-8 text-muted-foreground"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                                    />
-                                </svg>
-                            </div>
-                            <h3 className="text-xl font-semibold text-foreground mb-3">
-                                Nu sunt intervale disponibile
-                            </h3>
-                            <p className="text-muted-foreground mb-6">
-                                Ne pare rău, dar nu sunt intervale de timp disponibile pentru acest specialist în următoarele 30 de zile.
-                            </p>
-                            <button
+                            <motion.button
                                 onClick={navigateToMyAppointments}
-                                className="w-full bg-primary text-primary-foreground px-6 py-3 rounded-lg hover:bg-primary/90 transition-all duration-200 font-medium"
+                                className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors rounded-full px-4 py-2 hover:bg-gray-100"
+                                whileHover={{ scale: 1.02 }}
+                                whileTap={{ scale: 0.98 }}
                             >
-                                Înapoi la programările mele
-                            </button>
-                        </motion.div>
-                    </motion.div>
-                ) : (
-                    <motion.div
-                        className="bg-background"
-                        variants={staggerContainer}
-                        initial="hidden"
-                        animate="visible"
-                    >
-                        {/* Calendar Header */}
-                        <motion.div
-                            className="bg-muted/30 border-b border-border px-6 py-4"
-                            variants={staggerItem}
-                        >
-                            <div className="max-w-(--breakpoint-xl) mx-auto flex items-center justify-between">
-                                <div>
-                                    <h3 className="text-xl font-semibold text-foreground">
-                                        Selectează data și ora
-                                    </h3>
-                                    <p className="text-muted-foreground mt-1">
-                                        Toate orele sunt afișate în fusul orar România (EET/EEST)
-                                    </p>
-                                </div>
-                                <motion.button
-                                    onClick={navigateToMyAppointments}
-                                    className="flex items-center justify-center w-10 h-10 text-muted-foreground hover:text-foreground hover:bg-muted rounded-full transition-all duration-200"
-                                    whileHover={{ scale: 1.1, rotate: 90 }}
-                                    whileTap={{ scale: 0.9 }}
-                                    transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                                >
-                                    <svg
-                                        className="w-5 h-5"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth="2"
-                                            d="M6 18L18 6M6 6l12 12"
-                                        />
-                                    </svg>
-                                </motion.button>
-                            </div>
+                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
+                                </svg>
+                                Înapoi
+                            </motion.button>
                         </motion.div>
 
-                        {/* Calendar Body */}
                         <motion.div
-                            className="bg-background"
+                            className="text-center max-w-4xl mx-auto"
+                            variants={staggerContainer}
+                            initial="hidden"
+                            animate="visible"
+                        >
+                            <motion.div
+                                className="inline-flex items-center gap-2 bg-gradient-purple-soft text-purple-700 rounded-full px-4 py-2 text-sm font-medium mb-6"
+                                variants={staggerItem}
+                            >
+                                <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
+                                Rezervare online
+                            </motion.div>
+
+                            <motion.h1
+                                className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight tracking-tight text-gray-900 mb-6"
+                                variants={staggerItem}
+                            >
+                                Programează-te cu{" "}
+                                {professionalName && (
+                                    <span className="text-gradient">
+                                        {professionalName}
+                                    </span>
+                                )}
+                            </motion.h1>
+
+                            <motion.p
+                                className="text-lg lg:text-xl text-gray-700 leading-relaxed mb-8"
+                                variants={staggerItem}
+                            >
+                                Alege intervalul de timp perfect pentru tine. Programarea este simplă, rapidă și sigură.
+                            </motion.p>
+
+                            <motion.div
+                                className="flex flex-wrap justify-center gap-6 text-sm text-gray-600"
+                                variants={staggerItem}
+                            >
+                                <div className="flex items-center gap-2 bg-white/80 backdrop-blur-sm rounded-xl px-4 py-3 shadow-soft">
+                                    <svg className="w-4 h-4 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    90 minute / sesiune
+                                </div>
+                                <div className="flex items-center gap-2 bg-white/80 backdrop-blur-sm rounded-xl px-4 py-3 shadow-soft">
+                                    <svg className="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                    </svg>
+                                    Program: 08:00 - 18:00
+                                </div>
+                                <div className="flex items-center gap-2 bg-white/80 backdrop-blur-sm rounded-xl px-4 py-3 shadow-soft">
+                                    <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    Confirmare rapidă
+                                </div>
+                            </motion.div>
+                        </motion.div>
+                    </div>
+                </motion.div>
+
+                {/* Main Content */}
+                <div className="max-w-7xl mx-auto px-6 py-16">
+                    {availableTimeslots.length === 0 ? (
+                        <motion.div
+                            className="max-w-2xl mx-auto"
                             variants={staggerItem}
                         >
-                            <div>
+                            <div className="floating-card rounded-3xl p-12 text-center">
+                                <motion.div
+                                    initial={{ scale: 0, opacity: 0 }}
+                                    animate={{ scale: 1, opacity: 1 }}
+                                    transition={{ delay: 0.5, duration: 0.6, ease: "easeOut" }}
+                                    className="mb-8"
+                                >
+                                    <div className="w-24 h-24 mx-auto bg-gradient-purple-soft rounded-full flex items-center justify-center mb-6">
+                                        <svg
+                                            className="w-12 h-12 text-purple-500"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                strokeWidth="2"
+                                                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                                            />
+                                        </svg>
+                                    </div>
+                                </motion.div>
+                                <h3 className="text-2xl font-bold text-gray-900 mb-4">Nu sunt intervale disponibile</h3>
+                                <p className="text-gray-600 mb-8 text-lg">
+                                    Ne pare rău, dar nu sunt intervale de timp disponibile pentru acest specialist în următoarele 30 de zile.
+                                </p>
+                                <button
+                                    onClick={navigateToMyAppointments}
+                                    className="btn-gradient rounded-full px-8 py-3 font-medium shadow-purple"
+                                >
+                                    Înapoi la programările mele
+                                </button>
+                            </div>
+                        </motion.div>
+                    ) : (
+                        <motion.div
+                            className="floating-card rounded-3xl overflow-hidden shadow-purple"
+                            variants={staggerItem}
+                        >
+                            <div className="calendar-wrapper">
                                 <ScheduleMeeting
                                     borderRadius={5}
-                                    primaryColor="#0f0f0f"
+                                    primaryColor="#8b5cf6"
                                     startTimeListStyle="scroll-list"
                                     eventDurationInMinutes={90}
                                     availableTimeslots={availableTimeslots}
@@ -625,8 +630,8 @@ export default function RequestAppointment() {
                                 />
                             </div>
                         </motion.div>
-                    </motion.div>
-                )}
+                    )}
+                </div>
             </div>
 
             {/* Footer */}
@@ -635,114 +640,130 @@ export default function RequestAppointment() {
             {/* Custom Styles for Calendar */}
             <style jsx>{`
                 .calendar-wrapper {
-                    --rsm-primary-color: hsl(var(--primary));
-                    --rsm-border-radius: 0px;
+                    --rsm-primary-color: #8b5cf6;
+                    --rsm-border-radius: 12px;
                 }
                 .calendar-wrapper .rsm-calendar {
                     border: none !important;
                     box-shadow: none !important;
                     background: transparent !important;
+                    border-radius: 0px !important;
                 }
                 .calendar-wrapper .rsm-calendar-day {
-                    border-radius: 8px !important;
-                    transition: all 0.2s ease !important;
+                    border-radius: 12px !important;
+                    transition: all 0.3s ease !important;
+                    border: 1px solid #e5e7eb !important;
+                    background: white !important;
+                    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
                 }
                 .calendar-wrapper .rsm-calendar-day:hover {
-                    transform: scale(1.02) !important;
+                    transform: translateY(-2px) !important;
+                    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.15) !important;
+                    border-color: #8b5cf6 !important;
                 }
                 .calendar-wrapper .rsm-time-slot {
-                    border-radius: 6px !important;
+                    border-radius: 8px !important;
                     transition: all 0.2s ease !important;
-                    box-shadow: none !important;
+                    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+                    border: 1px solid #e5e7eb !important;
+                    background: white !important;
+                    margin: 4px 0 !important;
                 }
                 .calendar-wrapper .rsm-time-slot:hover {
                     transform: translateY(-1px) !important;
-                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05) !important;
+                    box-shadow: 0 2px 8px rgba(139, 92, 246, 0.2) !important;
+                    border-color: #8b5cf6 !important;
+                }
+                .calendar-wrapper .rsm-time-slot.selected {
+                    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%) !important;
+                    color: white !important;
+                    border-color: #7c3aed !important;
+                    box-shadow: 0 4px 16px rgba(139, 92, 246, 0.4) !important;
                 }
                 .rsm-calendar {
-                    padding: 0 !important;
+                    padding: 20px !important;
                     margin: 0 !important;
+                }
+                .rsm-calendar-header {
+                    background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%) !important;
+                    border-radius: 12px !important;
+                    padding: 12px !important;
+                    margin-bottom: 16px !important;
                 }
             `}</style>
 
             <AlertDialog open={showConfirmDialog} onOpenChange={setShowConfirmDialog}>
-                <AlertDialogContent className="left-4 right-4 top-[50%] translate-x-0 translate-y-[-50%] w-auto max-w-md mx-auto rounded-xl shadow-lg">
-                    <AlertDialogHeader>
-                        <AlertDialogTitle className="text-xl font-semibold">
-                            Confirmă rezervarea programării
+                <AlertDialogContent className="left-4 right-4 top-[50%] translate-x-0 translate-y-[-50%] w-auto max-w-sm mx-auto rounded-2xl floating-card border-none shadow-purple">
+                    <AlertDialogHeader className="text-center pb-2">
+                        <div className="w-12 h-12 mx-auto bg-gradient-purple-soft rounded-full flex items-center justify-center mb-3">
+                            <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                        </div>
+                        <AlertDialogTitle className="text-lg font-bold text-gray-900 mb-2">
+                            Confirmă rezervarea
                         </AlertDialogTitle>
-                        <AlertDialogDescription>
-                            {selectedTimeSlot && (
-                                <div className="space-y-4 mt-4">
-                                    <p className="text-muted-foreground">
-                                        Sunteți sigur că doriți să rezervați o programare pentru:
-                                    </p>
-                                    <div className="bg-muted/50 p-4 rounded-xl border border-border">
-                                        {professionalName && (
-                                            <div className="flex items-center gap-3 mb-3 text-foreground">
-                                                <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
-                                                    <svg className="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <AlertDialogDescription className="text-gray-600 text-sm">
+                            {selectedTimeSlot && professionalName && (
+                                <div className="space-y-3">
+                                    <div className="bg-gradient-purple-soft p-4 rounded-xl border border-purple-100">
+                                        <div className="text-left space-y-2">
+                                            <div className="flex items-center gap-2 text-purple-900">
+                                                <div className="w-7 h-7 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                                    <svg className="w-3.5 h-3.5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                                                     </svg>
                                                 </div>
-                                                <span className="font-medium">{professionalName}</span>
+                                                <span className="font-bold text-sm">{professionalName}</span>
                                             </div>
-                                        )}
-                                        <div className="flex items-center gap-3 mb-3 text-foreground">
-                                            <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
-                                                <svg className="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                                </svg>
+                                            <div className="flex items-center gap-2 text-purple-900">
+                                                <div className="w-7 h-7 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                                    <svg className="w-3.5 h-3.5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                                    </svg>
+                                                </div>
+                                                <span className="font-medium text-sm">
+                                                    {selectedTimeSlot.toLocaleDateString('ro-RO', {
+                                                        timeZone: 'Europe/Bucharest',
+                                                        weekday: 'long',
+                                                        year: 'numeric',
+                                                        month: 'long',
+                                                        day: 'numeric'
+                                                    })}
+                                                </span>
                                             </div>
-                                            <span className="font-medium">
-                                                {selectedTimeSlot?.toLocaleDateString('ro-RO', {
-                                                    timeZone: 'Europe/Bucharest',
-                                                    weekday: 'long',
-                                                    year: 'numeric',
-                                                    month: 'long',
-                                                    day: 'numeric'
-                                                })}
-                                            </span>
-                                        </div>
-                                        <div className="flex items-center gap-3 mb-3 text-foreground">
-                                            <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
-                                                <svg className="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                </svg>
+                                            <div className="flex items-center gap-2 text-purple-900">
+                                                <div className="w-7 h-7 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                                    <svg className="w-3.5 h-3.5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                    </svg>
+                                                </div>
+                                                <span className="font-medium text-sm">
+                                                    {formatTime(selectedTimeSlot)} - {formatTime(addMinutes(selectedTimeSlot, 90))} (90 min)
+                                                </span>
                                             </div>
-                                            <span className="font-medium">
-                                                {formatTime(selectedTimeSlot)} - {formatTime(addMinutes(selectedTimeSlot, 90))}
-                                            </span>
-                                        </div>
-                                        <div className="flex items-center gap-3 text-foreground">
-                                            <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
-                                                <svg className="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                                                </svg>
-                                            </div>
-                                            <span className="font-medium">Durata: 90 minute</span>
                                         </div>
                                     </div>
                                 </div>
                             )}
                         </AlertDialogDescription>
                     </AlertDialogHeader>
-                    <AlertDialogFooter className="gap-3">
+                    <AlertDialogFooter className="flex flex-col sm:flex-row gap-2 pt-3">
                         <AlertDialogCancel
                             onClick={handleCancelBooking}
-                            className="px-6 py-2 rounded-lg transition-all duration-200"
+                            className="w-full sm:w-auto rounded-full px-6 py-2 border-gray-300 text-gray-700 hover:bg-gray-50 font-medium text-sm"
                         >
                             Anulează
                         </AlertDialogCancel>
                         <AlertDialogAction
                             onClick={handleConfirmBooking}
-                            className="px-6 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-all duration-200"
+                            className="w-full sm:w-auto btn-gradient rounded-full px-6 py-2 font-medium shadow-purple text-sm"
                         >
                             Confirmă rezervarea
                         </AlertDialogAction>
                     </AlertDialogFooter>
                 </AlertDialogContent>
             </AlertDialog>
-        </div>
+        </motion.div>
     );
 }
