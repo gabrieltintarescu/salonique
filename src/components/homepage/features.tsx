@@ -52,7 +52,7 @@ const features = [
 
 const Features = () => {
   return (
-    <div className="py-16 bg-white relative overflow-hidden">
+    <div className="py-16 bg-white relative overflow-hidden" id="avantaje">
       {/* Background decorative elements */}
       <div className="absolute top-0 left-0 w-full h-full">
         <div className="absolute top-40 left-20 w-24 h-24 bg-gray-100 rounded-full opacity-30 blur-xl"></div>
@@ -60,7 +60,6 @@ const Features = () => {
       </div>
 
       <motion.div
-        id="avantaje"
         className="max-w-(--breakpoint-xl) mx-auto w-full px-6 relative z-10"
         variants={fadeIn}
         initial="hidden"

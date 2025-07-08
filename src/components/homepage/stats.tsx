@@ -34,7 +34,7 @@ const Stats = () => {
         {
             name: "Maria Ionescu",
             role: "Salon de frumusețe",
-            avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b376?w=150&h=150&fit=crop&crop=face",
+            avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
             content: "Platforma a revolutionat modul în care îmi gestionez programările. Economisesc 3 ore pe zi!"
         },
         {
@@ -153,7 +153,7 @@ const Stats = () => {
                                     </div>
                                     <div className="flex items-center gap-1 mb-4">
                                         {[...Array(5)].map((_, i) => (
-                                            <Star key={i} className="w-4 h-4 text-gray-400 fill-current" />
+                                            <Star key={i} className="w-4 h-4 fill-yellow-400 stroke-yellow-400" />
                                         ))}
                                     </div>
                                     <p className="text-gray-700 leading-relaxed">{testimonial.content}</p>

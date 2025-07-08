@@ -97,7 +97,6 @@ const Testimonial = () => {
       </div>
 
       <motion.div
-        id="recenzii"
         className="w-full max-w-(--breakpoint-xl) mx-auto px-6 relative z-10"
         variants={fadeIn}
         initial="hidden"
@@ -107,6 +106,7 @@ const Testimonial = () => {
         <motion.h2
           className="mb-6 xs:mb-10 text-3xl md:text-4xl font-bold text-center tracking-tight text-gray-900"
           variants={fadeIn}
+          id="recenzii"
           transition={{ delay: 0.2 }}
         >
           Ce spun clienții noștri

@@ -9,7 +9,7 @@ import HCaptcha from '@hcaptcha/react-hcaptcha'
 import { useRef, useState } from "react"
 import { Link, useNavigate, useSearchParams } from "react-router-dom"
 import { toast, Toaster } from "sonner"
-import login_banner from '../../assets/login_banner.webp'
+import register_banner from '../../assets/register_banner.webp'
 import { Button } from "../ui/Button"
 
 export function ProfessionalLoginForm({
@@ -172,7 +172,7 @@ export function ProfessionalLoginForm({
           </form>
           <div className="bg-muted relative hidden md:block">
             <img
-              src={login_banner}
+              src={register_banner}
               alt="Imagine"
               className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
             />

@@ -94,7 +94,7 @@ export function ClientLoginForm({
     <form className={cn("flex flex-col gap-6", className)} {...props} onSubmit={handleSubmit}>
       <Toaster position="top-center" />
       <div className="flex flex-col items-center gap-2 text-center">
-        <h1 className="text-2xl font-bold">Conectează-te la contul tău</h1>
+        <h1 className="text-3xl font-bold">Conectează-te la contul tău</h1>
         <p className="text-muted-foreground text-sm text-balance">
           Introdu datele tale mai jos pentru a te autentifica.
         </p>

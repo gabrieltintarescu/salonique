@@ -2,7 +2,7 @@ import { ClientRegisterForm } from "@/components/auth/client-register-form";
 import { Logo } from "@/components/navbar/logo";
 import SEO from "@/components/SEO";
 import { seoConfigs } from "@/config/seo";
-import register_banner from '../../assets/register_banner.webp';
+import client_register_banner from '../../assets/register_client_banner.webp';
 
 export default function ClientRegister() {
     return (
@@ -21,7 +21,7 @@ export default function ClientRegister() {
                 </div>
                 <div className="bg-muted relative hidden lg:block">
                     <img
-                        src={(register_banner)}
+                        src={(client_register_banner)}
                         alt="Image"
                         className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
                     />
